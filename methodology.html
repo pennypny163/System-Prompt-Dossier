@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Prompt 拆解方法论</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --bg:#1a1430; --bg2:#221a3d; --card:#2a2147; --card2:#322755;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --t1:#f3f0ff; --t2:#c9c2e8; --t3:#8b82b5;
+    --accent:#c97b5a; --accent2:#7f77dd; --hl:#e85d4a; --gold:#f3c98a;
+    --d1:#7f77dd; --d2:#5dcaa5; --d3:#e85d4a; --d4:#378add;
+    --d5:#ef9f27; --d6:#d4537e; --d7:#1d9e75; --d8:#b4b2a9;
+  }
+  body{ font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+    background:linear-gradient(160deg,#15102a 0%,#1a1430 50%,#231a40 100%);
+    color:var(--t1); line-height:1.7; -webkit-font-smoothing:antialiased; }
+  .deck{ max-width:1080px; margin:0 auto; padding:56px 48px 80px; }
+
+  .hero{ display:flex; align-items:flex-start; gap:18px; margin-bottom:8px; }
+  .hero .kicker{ font-size:13px; color:var(--accent2); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+  .hero h1{ font-size:34px; font-weight:700; letter-spacing:.5px; line-height:1.25; }
+  .hero h1 .em{ color:var(--gold); }
+  .arrows{ margin-left:auto; color:rgba(255,255,255,.22); font-size:28px; }
+  .lead{ font-size:15px; color:var(--t2); max-width:820px; margin:14px 0 40px; }
+  .lead b{ color:var(--t1); }
+
+  .sec{ margin-bottom:38px; }
+  .sec-h{ display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+  .sec-h .num{ width:26px; height:26px; border-radius:8px; background:rgba(127,119,221,.2); color:var(--accent2);
+    font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .sec-h h2{ font-size:21px; font-weight:600; }
+  .sec-sub{ font-size:13.5px; color:var(--t3); margin:0 0 18px 36px; }
+
+  /* 核心心智模型 banner */
+  .mental{ background:linear-gradient(135deg,rgba(127,119,221,.18),rgba(201,123,90,.08));
+    border:1px solid rgba(127,119,221,.35); border-radius:16px; padding:24px 28px; margin-bottom:40px; }
+  .mental .q{ font-size:22px; font-weight:600; color:var(--t1); line-height:1.5; margin-bottom:10px; }
+  .mental .q .hl{ color:var(--gold); }
+  .mental .src{ font-size:12.5px; color:var(--t3); }
+  .mental .src a,.mental .src b{ color:var(--accent2); font-weight:600; }
+
+  /* 流程：LLM=商品层 */
+  .stack{ display:flex; align-items:center; gap:0; margin:18px 0 4px; flex-wrap:wrap; }
+  .stack .layer{ flex:1; min-width:130px; text-align:center; padding:14px 10px; border-radius:10px; margin:4px; }
+  .stack .l-q{ background:var(--card2); border:1px solid var(--line); }
+  .stack .l-sp{ background:rgba(232,93,74,.16); border:1px solid rgba(232,93,74,.4); }
+  .stack .l-llm{ background:var(--card2); border:1px solid var(--line); }
+  .stack .l-tool{ background:var(--card2); border:1px solid var(--line); }
+  .stack .layer .lt{ font-size:14px; font-weight:600; color:var(--t1); }
+  .stack .layer .ld{ font-size:11.5px; color:var(--t3); margin-top:3px; }
+  .stack .arr{ color:var(--t3); font-size:20px; padding:0 2px; }
+  .stack-note{ font-size:12.5px; color:var(--t3); margin-top:8px; }
+  .stack-note b{ color:var(--hl); }
+
+  /* 来源卡 */
+  .srcgrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .scard{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
+  .scard .stag{ display:inline-block; font-size:11px; font-weight:600; padding:3px 9px; border-radius:12px; margin-bottom:8px; }
+  .scard.peer .stag{ background:rgba(93,202,165,.18); color:#5dcaa5; }
+  .scard.theory .stag{ background:rgba(239,159,39,.18); color:#ef9f27; }
+  .scard .sname{ font-size:15px; font-weight:600; color:var(--t1); margin-bottom:6px; }
+  .scard .sname .meta{ font-size:12px; color:var(--t3); font-weight:400; margin-left:6px; }
+  .scard .sbody{ font-size:13px; color:var(--t2); }
+  .scard .sbody b{ color:var(--gold); font-weight:600; }
+
+  /* 八维矩阵 */
+  .dims{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .dim{ background:var(--card2); border:1px solid var(--line); border-radius:12px; padding:16px 18px; position:relative; overflow:hidden; }
+  .dim::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; }
+  .dim.d1::before{background:var(--d1);} .dim.d2::before{background:var(--d2);}
+  .dim.d3::before{background:var(--d3);} .dim.d4::before{background:var(--d4);}
+  .dim.d5::before{background:var(--d5);} .dim.d6::before{background:var(--d6);}
+  .dim.d7::before{background:var(--d7);} .dim.d8::before{background:var(--d8);}
+  .dim .dhead{ display:flex; align-items:baseline; gap:8px; margin-bottom:6px; }
+  .dim .dn{ font-size:12px; color:var(--t3); font-family:ui-monospace,monospace; }
+  .dim .dname{ font-size:15px; font-weight:600; color:var(--t1); }
+  .dim .dq{ font-size:12.5px; color:var(--accent2); margin-bottom:8px; }
+  .dim .dbody{ font-size:13px; color:var(--t2); }
+  .dim .dsrc{ font-size:11.5px; color:var(--t3); margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); }
+  .dim .dsrc b{ color:var(--t2); font-weight:600; }
+
+  /* 工作流 */
+  .flow{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .fstep{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; text-align:center; position:relative; }
+  .fstep .fn{ width:30px; height:30px; border-radius:50%; background:rgba(127,119,221,.2); color:var(--accent2);
+    font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; }
+  .fstep .ft{ font-size:14px; font-weight:600; color:var(--t1); margin-bottom:5px; }
+  .fstep .fd{ font-size:12px; color:var(--t3); }
+
+  .note{ margin-top:42px; font-size:12.5px; color:var(--t3); border-top:1px solid var(--line); padding-top:16px; line-height:1.65; }
+  .note b{ color:var(--t2); }
+  .refs{ margin-top:14px; font-size:12px; color:var(--t3); }
+  .refs li{ margin-bottom:5px; list-style:none; padding-left:16px; position:relative; }
+  .refs li::before{ content:"▸"; position:absolute; left:0; color:var(--accent2); }
+  .refs b{ color:var(--t2); }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <div class="hero">
+    <div>
+      <div class="kicker">Methodology · 开篇理论框架</div>
+      <h1>如何"专业地"拆解一份<br><span class="em">System Prompt</span></h1>
+    </div>
+    <div class="arrows">&raquo;&raquo;&raquo;</div>
+  </div>
+  <p class="lead">拆解大模型 system prompt 不是"读后感"，而是有成熟方法论的工程实践。本页先立框架：<b>一个核心心智模型 + 两类理论来源 + 八个标准拆解维度</b>。后续每个模型的拆解页，都严格沿用这套骨架——确保结论<b>有据可依、可对比、可复现</b>。</p>
+
+  <!-- 核心心智模型 -->
+  <div class="mental">
+    <div class="q">"The system prompt <span class="hl">is</span> the product."<br><span style="font-size:16px;color:var(--t2);font-weight:400;">大模型本身正在变成商品层；产品的差异化，几乎全部活在那份看不见的配置里。</span></div>
+    <div class="stack">
+      <div class="layer l-q"><div class="lt">User Query</div><div class="ld">用户输入</div></div>
+      <span class="arr">→</span>
+      <div class="layer l-sp"><div class="lt">System Prompt</div><div class="ld">身份·规则·工具·边界</div></div>
+      <span class="arr">→</span>
+      <div class="layer l-llm"><div class="lt">LLM Backbone</div><div class="ld">GPT / Claude / Gemini（商品层）</div></div>
+      <span class="arr">→</span>
+      <div class="layer l-tool"><div class="lt">Tool Calls</div><div class="ld">搜索·浏览·编辑·部署</div></div>
+    </div>
+    <div class="stack-note">同样的底座模型，<b>Cursor 像外科医生、另一个 agent 像无头苍蝇</b>——差别不在模型，在中间那层 System Prompt。读懂它，就读懂了产品的真实意图。</div>
+    <div class="src" style="margin-top:12px;">来源：<b>HackerNoon《The Moat is a Config File》</b>（2026）对 OpenAI/Anthropic/Google/Cursor/Devin 等泄露 prompt 的横向分析。</div>
+  </div>
+
+  <!-- 区块1：理论来源 -->
+  <div class="sec">
+    <div class="sec-h"><span class="num">1</span><h2>方法论的两类来源</h2></div>
+    <p class="sec-sub">一类是 GitHub 同行的实操经验，一类是 AI 厂商官方公开的设计规范。前者教"怎么拆"，后者给"权威背书"。</p>
+    <div class="srcgrid">
+      <div class="scard peer">
+        <span class="stag">同行实操 · GitHub</span>
+        <div class="sname">CL4R1T4S <span class="meta">26k★ · elder_plinius</span></div>
+        <div class="sbody">最大的泄露 prompt 研究库。提出<b>"提示词考古"</b>：把 prompt 当分层文物，用 git commit 追踪护栏增删＝政策变更审计线。另有跨厂商 diff、工具 schema 提取、token 体量统计。</div>
+      </div>
+      <div class="scard peer">
+        <span class="stag">同行实操 · 行业分析</span>
+        <div class="sname">The Moat is a Config File <span class="meta">HackerNoon</span></div>
+        <div class="sbody">提出核心心智模型 <b>"System Prompt 即产品"</b>，并定义了 trust hierarchy（指令权限层级）、安全红线、人格、工具、商业优先级、运行时干预等横向对比维度。</div>
+      </div>
+      <div class="scard theory">
+        <span class="stag">官方规范 · Anthropic</span>
+        <div class="sname">Claude's Constitution <span class="meta">CC0 公开</span></div>
+        <div class="sbody">Anthropic 官方公布的 Claude 价值观文档，<b>可合规自由引用</b>。四条优先级严格排序：<b>安全 ＞ 伦理 ＞ 守规则 ＞ 真正有用</b>。直接解释了 Claude 为何爱加 caveat、为何拒绝。</div>
+      </div>
+      <div class="scard theory">
+        <span class="stag">官方规范 + 构造框架</span>
+        <div class="sname">OpenAI Model Spec · COSTAR</div>
+        <div class="sbody">Model Spec 定义 <b>instruction hierarchy</b>（平台＞开发者＞用户三层权限）。COSTAR（新加坡 GPT-4 赛冠军框架）＝Context·Objective·Style·Tone·Audience·Response，<b>反过来即拆解清单</b>。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 区块2：八维骨架 -->
+  <div class="sec">
+    <div class="sec-h"><span class="num">2</span><h2>八维拆解骨架</h2></div>
+    <p class="sec-sub">融合上述同行经验与官方框架，提炼为每个模型必拆的八个维度。每一维都标注了理论出处。</p>
+    <div class="dims">
+      <div class="dim d1">
+        <div class="dhead"><span class="dn">D1</span><span class="dname">身份 / 人格</span></div>
+        <div class="dq">它把自己当成"谁"？</div>
+        <div class="dbody">自我认知、语气、是否拟人化、对待用户的姿态（当成年人 / 当需保护者）。这是"人格画像"的直接依据。</div>
+        <div class="dsrc">出处：<b>COSTAR</b> 的 Role/Style/Tone · Claude Constitution"像聪明的成年朋友"</div>
+      </div>
+      <div class="dim d2">
+        <div class="dhead"><span class="dn">D2</span><span class="dname">指令权限层级</span></div>
+        <div class="dq">冲突时，谁说了算？</div>
+        <div class="dbody">厂商 ＞ 开发者(operator) ＞ 用户的三层权限。决定了"用户能不能命令它越界"，是企业部署安全性的根基。</div>
+        <div class="dsrc">出处：<b>OpenAI Model Spec</b> instruction hierarchy · Claude trust hierarchy</div>
+      </div>
+      <div class="dim d3">
+        <div class="dhead"><span class="dn">D3</span><span class="dname">安全红线</span></div>
+        <div class="dq">绝对不做的是什么？</div>
+        <div class="dbody">武器/生化、恶意代码、儿童安全等硬约束。对比各家红线的"宽严"与表述方式，能看出价值观差异。</div>
+        <div class="dsrc">出处：<b>Claude Constitution</b> hard constraints · CL4R1T4S 红线清单对比</div>
+      </div>
+      <div class="dim d4">
+        <div class="dhead"><span class="dn">D4</span><span class="dname">工具调用规则</span></div>
+        <div class="dq">何时搜索 / 拒绝 / 动手？</div>
+        <div class="dbody">何时联网、何时执行代码、何时调用 MCP。Agent 类模型的核心，决定它"能干多少活"。</div>
+        <div class="dsrc">出处：<b>CL4R1T4S</b> Tool-Use Schema 提取 · 各家 function-calling 规则</div>
+      </div>
+      <div class="dim d5">
+        <div class="dhead"><span class="dn">D5</span><span class="dname">商业优先级</span></div>
+        <div class="dq">是否偷偷偏向自家？</div>
+        <div class="dbody">部分 prompt 明确要求在某些场景优先推荐自家产品/生态，而非最优解。这是用户看不见的"暗规则"。</div>
+        <div class="dsrc">出处：<b>The Moat is a Config File</b> 商业优先级分析</div>
+      </div>
+      <div class="dim d6">
+        <div class="dhead"><span class="dn">D6</span><span class="dname">运行时干预</span></div>
+        <div class="dq">对话中途会被"插话"吗？</div>
+        <div class="dbody">分类器实时注入的警告（如 cyber_warning、长对话提醒）。这是动态的、用户无感的二次约束。</div>
+        <div class="dsrc">出处：<b>HackerNoon</b> 实时分类器干预 · Claude anthropic_reminders</div>
+      </div>
+      <div class="dim d7">
+        <div class="dhead"><span class="dn">D7</span><span class="dname">跨版本 Diff</span></div>
+        <div class="dq">护栏是怎么一步步加上的？</div>
+        <div class="dbody">追踪同一模型历代 prompt 的增删，还原"政策演进史"。本项目时间线功能即此维度的落地。</div>
+        <div class="dsrc">出处：<b>CL4R1T4S</b> "提示词考古" + Cross-Provider Diffing</div>
+      </div>
+      <div class="dim d8">
+        <div class="dhead"><span class="dn">D8</span><span class="dname">Token 体量</span></div>
+        <div class="dq">为"安全"付出多少成本？</div>
+        <div class="dbody">prompt 的字数/token 规模，称为 <b>"context tax"（安全税）</b>。体量暴涨往往意味着从"对话"转向"agent 操作系统"。</div>
+        <div class="dsrc">出处：<b>CL4R1T4S</b> Token-Count Metadata</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 区块3：拆解工作流 -->
+  <div class="sec">
+    <div class="sec-h"><span class="num">3</span><h2>每页拆解的标准工作流</h2></div>
+    <p class="sec-sub">从原文到结论，四步走，确保每个判断都"有原文为证"。</p>
+    <div class="flow">
+      <div class="fstep"><div class="fn">1</div><div class="ft">锚定原文</div><div class="fd">逐行核对仓库 prompt，标注文件名与段落，杜绝凭印象</div></div>
+      <div class="fstep"><div class="fn">2</div><div class="ft">八维归类</div><div class="fd">把关键条款对应到 D1–D8，缺哪维一目了然</div></div>
+      <div class="fstep"><div class="fn">3</div><div class="ft">人格映射</div><div class="fd">把维度证据翻译成"人像比喻"（大学生版 / KA 高层版）</div></div>
+      <div class="fstep"><div class="fn">4</div><div class="ft">边界 + Diff</div><div class="fd">聚焦企业 Agent 能力边界，附版本演进与原文入口</div></div>
+    </div>
+  </div>
+
+  <p class="note"><b>方法论说明：</b>本页框架综合自 GitHub 同行项目与 AI 厂商官方公开规范，所有引用均可溯源（见下）。其中 Claude's Constitution 以 CC0 协议公开，可自由引用；其余为公开分析文章与开源仓库。本页作为整套课件的开篇，后续每个模型拆解页均沿用此八维骨架。
+  <ul class="refs">
+    <li><b>elder-plinius/CL4R1T4S</b> — LEAKED SYSTEM PROMPTS, AGPLv3, GitHub（~26k★）</li>
+    <li><b>The 'Moat' is a Config File</b> — HackerNoon, 2026（泄露 prompt 横向分析）</li>
+    <li><b>Claude's Constitution</b> — Anthropic 官方, CC0 1.0（anthropic.com/constitution）</li>
+    <li><b>OpenAI Model Spec</b> — OpenAI 官方行为规范（instruction hierarchy）</li>
+    <li><b>COSTAR Framework</b> — Sheila Teo, 新加坡首届 GPT-4 Prompt Engineering 赛冠军框架</li>
+    <li><b>Constitutional AI</b> — Anthropic 论文《Harmlessness from AI Feedback》</li>
+  </ul></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# 原始提示词库（来自 asgeirtj/system_prompts_leaks，CC0 许可）
+# 请自行克隆：git clone https://github.com/asgeirtj/system_prompts_leaks.git
+system_prompts_leaks/
+
+# WorkBuddy 工作区
+.workbuddy/
+
+# 构建中间产物
+claude-versions-data.json
+build_versions.py
+inject_reader.py
+
+# macOS
+.DS_Store
