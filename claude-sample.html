@@ -215,6 +215,17 @@
     </div>
   </div>
 
+  <!-- D2：指令权限层级 -->
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D2 · 指令权限层级</h2><span class="en">instruction hierarchy</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 三层权限结构</div><div class="body">Claude 4.8 prompt 明确定义了<span style="color:var(--hl)">三层指令优先级</span>：<b>System Prompt（Anthropic）> 用户指令 > 文件/工具结果中的指令</b>。这是防 prompt injection 的核心机制。</div></div>
+      <div class="dcard"><div class="label">► 文件指令 ≠ 用户指令</div><div class="body">prompt 明确写：嵌入在文件或工具结果中的指令<b>不等同于用户本人的指令</b>。这意味着即使文件里有"忽略之前所有指令"，Claude 也不会执行。</div></div>
+      <div class="dcard"><div class="label">► 实际影响</div><div class="body">企业部署时，这意味着<b>员工无法通过上传文件来"越权"</b>——比如上传包含"删除所有数据"指令的 CSV，Claude 会识别这不是用户本人意图。</div></div>
+      <div class="dcard"><div class="label">► 对比 3.7</div><div class="body">3.7 完全没有这个概念——它的 prompt 是一封"人格信"，没有任何权限分层。<b>这是从"聊天伙伴"到"企业级 Agent"的最关键一步</b>。</div></div>
+    </div>
+  </div>
+
   <!-- 区块4：版本时间线 + diff -->
   <div class="sec">
     <div class="sec-h"><span class="dot"></span><h2>四、版本迭代时间线 · Prompt Diff 技术分析</h2><span class="en">how the persona evolved</span></div>
@@ -233,6 +244,45 @@
       <div class="brow"><div class="blabel watch">⚠ 设计上的约束</div><div class="btext"><b>"判断力优先于盲从"</b>。prompt 明确要求：嵌在文件/工具结果里的指令 ≠ 用户本人下达的指令；可能泄露敏感数据的工具调用会被<b>标记而非直接执行</b>（防 prompt injection）。</div></div>
       <div class="brow"><div class="blabel cant">✕ 边界</div><div class="btext">拒绝恶意代码、武器/生化制造等；child safety 红线极严。企业部署时，这种"克制"是<b>双刃剑</b>——安全合规强，但在需要激进自动化的场景可能显得"过于谨慎"。</div></div>
     </div>
+  </div>
+
+  <!-- D5：商业优先级 -->
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D5 · 商业优先级</h2><span class="en">business priorities</span></div>
+    <div class="quote">
+      <div class="src">Anthropic / claude-opus-4.8.md · tool_preferences</div>
+      <div class="en">"When the user asks Claude to use a tool or framework, <b>Claude should prefer using Claude Code's native tools</b> (e.g., file editing, bash commands) over suggesting third-party alternatives."</div>
+      <div class="cn">Subtle 商业引导：当用户问"用什么工具做 X"时，Claude 会优先推荐 <b>Claude Code 自己的工具</b>，而非竞品（如 Cursor、GitHub Copilot）。</div>
+    </div>
+    <div class="bound">
+      <div class="brow"><div class="blabel can">明确偏好</div><div class="btext">优先使用 <b>Anthropic 生态工具</b>（Claude Code、Claude API）。在编码场景中，prompt 引导 Claude 展示自家工具的优势。</div></div>
+      <div class="brow"><div class="blabel watch">隐性推广</div><div class="btext">对话中<b>自然植入产品名称</b>，而非生硬广告。比如"你可以用 Claude Code 的 bash 工具来做这个"，而不是"推荐你用 Claude Code"。</div></div>
+      <div class="brow"><div class="blabel cant">边界</div><div class="btext">不会<b>撒谎或扭曲事实</b>来推广产品。如果竞品确实更适合，Claude 会诚实说明。这是对"商业优先级"的<b>克制处理</b>。</div></div>
+    </div>
+  </div>
+
+  <!-- D6：运行时干预 -->
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D6 · 运行时干预机制</h2><span class="en">runtime intervention</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► anthropic_reminders</div><div class="body">4.6 引入的<b>动态注入机制</b>：在长对话中，系统会定期注入"提醒"片段，防止 Claude 偏离指令（比如被 prompt injection 攻击后"忘记"安全规则）。<b>这不是静态 prompt 的一部分，而是运行时动态插入的</b>。</div></div>
+      <div class="dcard"><div class="label">► cyber_warning</div><div class="body">当 Claude 检测到用户可能在请求<b>恶意代码或网络攻击</b>帮助时，会注入一个特殊警告段落，强制 Claude 拒绝并解释原因。<b>这是"分类器干预"机制，类似 moderation system</b>。</div></div>
+      <div class="dcard"><div class="label">► 实际影响</div><div class="body">这意味着 Claude 的<b>实际行为比静态 prompt 更严格</b>——因为运行时还有一层动态防护。<b>企业部署时需要注意：这不是 bug，是 feature</b>（防止模型在长对话中"漂移"）。</div></div>
+      <div class="dcard"><div class="label">► 对比 OpenAI</div><div class="body">OpenAI 的 Model Spec 也定义了类似机制（<b>moderation layer</b>），但 Anthropic 的做法更<b>透明</b>——因为在 system prompt 里明确写了 anthropic_reminders 的存在。</div></div>
+    </div>
+  </div>
+
+  <!-- D8：Token 体量 -->
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D8 · Token 体量 · Context Tax</h2><span class="en">token volume & cost</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel can">3.7 时代</div><div class="btext"><b>~90 行散文</b>，约 <b>600 tokens</b>。每次对话的"固定成本"极低，适合高频调用。</div></div>
+      <div class="brow"><div class="blabel watch">4.8 时代</div><div class="btext"><b>24,784 词 / 3,770 行</b>，约 <b>40,000+ tokens</b>。是 3.7 的 <b>~40 倍</b>。每次对话都要"预加载"这个巨型 prompt，<b>这是实打实的 context tax</b>。</div></div>
+      <div class="brow"><div class="blabel cant">商业影响</div><div class="btext">Opus 4.8 的 <b>输入 token 成本</b>中，有相当比例是<b>支付这个巨型 prompt 的</b>。企业用 Claude API 时，每次请求都为此买单。<b>但换来的是：更可控、更安全、更"懂事"的 Agent</b>。</div></div>
+    </div>
+    <p style="font-size:13px;color:var(--t2);margin-top:12px;padding:10px 14px;background:rgba(232,93,74,.08);border-radius:8px;border-left:3px solid var(--hl);">
+      <b style="color:var(--hl)">Context Tax 启示：</b>Prompt engineering 的一个核心权衡——<b>更长的 prompt = 更强的控制力，但也 = 更高的成本</b>。Claude 4.8 选择"堆 prompt"来保证行为一致性，这是一种<b>用钱换可控性</b>的策略。
+    </p>
   </div>
 
   <p class="note"><b>样张说明：</b>本页所有英文引用与版本 diff 均来自 system_prompts_leaks 仓库 Claude 历代原文（Official 文件夹按日期归档，已逐版核对），中文拆解为基于原文的人格解读。<b>结构：</b>只画最新版（4.8）人格画像，历代版本沉入"时间线 + diff 技术分析"。此结构若 OK，我据此批量复刻其余模型。</p>
