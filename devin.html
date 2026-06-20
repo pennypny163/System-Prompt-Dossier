@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devin 拆解档案</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body data-model="devin" data-model-name="Devin" data-data="data/devin.json">
+<div class="deck">
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="index.html">INDEX</a>
+    <a href="methodology.html">METHODOLOGY</a>
+    <a href="claude-sample.html">CLAUDE</a>
+    <a href="docs/source-annotations.md">SOURCES</a>
+  </nav>
+
+  <div class="hero">
+    <div class="avatar"><span class="face">DV</span><span class="logo">DOSSIER</span></div>
+    <div class="htext">
+      <h1><span class="en">Devin</span> Autonomous SWE</h1>
+      <span class="persona-tag">会排计划的远程初级工程师</span>
+    </div>
+    <div class="arrows">&raquo;&raquo;&raquo;</div>
+  </div>
+  <p class="subtitle">Devin 适合分析长任务自治：计划、执行、观察、修正、请求确认。它不是“回答一个问题”的助手，而是试图把软件工程任务变成一个可持续运行的 agent loop。 <span>本页已接入 system_prompts_leaks 中对应真实 prompt 全文；下方时间线可打开原文、来源字段与逐项分析。</span></p>
+
+<div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>一、System Prompt 证据摘录</h2><span class="en">verbatim evidence</span></div>
+    <div class="quote" data-source-label="identity">
+      <div class="src">system_prompts_leaks / Misc/devin-cli.md · identity</div>
+      <div class="en">Devin is introduced as an interactive command line agent from Cognition.</div>
+      <div class="cn">Devin 的定位不是问答助手，而是命令行里的任务执行者，默认就站在“能操作环境”的位置上。</div>
+    </div>
+
+    <div class="quote" data-source-label="configuration_boundaries">
+      <div class="src">system_prompts_leaks / Misc/devin-cli.md · configuration_boundaries</div>
+      <div class="en">New configuration must use `.devin/`; it must not be placed in `.claude/`, `.cursor/`, or `.codex/`.</div>
+      <div class="cn">这条很硬：Devin 明确划出自己的配置边界，说明 Agent 产品之间的“工作目录主权”已经进了 prompt。</div>
+    </div>
+
+    <div class="quote" data-source-label="verification_style">
+      <div class="src">system_prompts_leaks / Misc/devin-cli.md · verification_style</div>
+      <div class="en">Technical accuracy and truthfulness take priority over validating the user's beliefs.</div>
+      <div class="cn">Devin 的长任务自治需要反讨好机制：当计划或假设不对时，它应该纠正，而不是为了顺从继续执行。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>二、人格成因拆解</h2><span class="en">why this personality</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 长任务自治</div><div class="body">Devin 的核心不是单轮回答，而是跨步骤推进软件工程目标。</div></div>
+      <div class="dcard"><div class="label">► 计划显性化</div><div class="body">它应把目标拆成计划，并随执行结果持续修订。</div></div>
+      <div class="dcard"><div class="label">► 环境操作</div><div class="body">浏览器、终端、编辑器、测试和外部服务都是它的行动空间。</div></div>
+      <div class="dcard"><div class="label">► 确认点关键</div><div class="body">越接近真实系统改动，越需要人类确认与审计。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>三、人格画像 · 两种讲法</h2><span class="en">two audiences</span></div>
+    <div class="persona">
+      <div class="pcard stu">
+        <span class="ptag">面向大学生 · 科普版</span>
+        <div class="big">远程实习工程师</div>
+        <div class="who">能自己推进，但关键节点要你看一眼</div>
+        <p>Devin 像一个愿意从早干到晚的实习生：会列计划、查资料、改代码、跑测试。</p>
+        <p>但它也可能误解目标，所以最重要的是让它在关键节点停下来确认。</p>
+        <div class="metaphor"><span class="q">&quot;</span>会排计划的远程初级工程师：这是给非技术读者的一句话人格锚点。</div>
+      </div>
+      <div class="pcard ka">
+        <span class="ptag">面向 KA 高层 · 授课版</span>
+        <div class="big">自治型软件工程执行单元</div>
+        <div class="who">适合长任务试验，但需要强审计与权限隔离</div>
+        <p>对企业来说，Devin 的吸引力在把“任务”而非“提示词”交给 AI。</p>
+        <p>核心风险是长链路误差积累：计划错一点，执行十步后成本就很高。</p>
+        <div class="metaphor"><span class="q">&quot;</span>企业价值不只看模型聪明不聪明，而是看它在权限、工具、审计和失败恢复里是否可控。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D2 · 指令权限层级</h2><span class="en">instruction hierarchy</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel can">权限链</div><div class="btext">用户目标、项目规则、工具权限、环境反馈、人类确认构成多层优先级。</div></div>
+      <div class="brow"><div class="blabel watch">边界</div><div class="btext">需要记录哪些操作可以自动做，哪些必须等待确认。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>四、版本迭代时间线 · Prompt Diff 技术分析</h2><span class="en">how the system layer evolves</span></div>
+    <p class="inline-note">点击任意版本卡片，可展开该版本的完整 prompt 原文、来源字段和逐项分析。</p>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>五、能力边界 · 企业环境下的 Agent</h2><span class="en">capability boundary</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel can">擅长</div><div class="btext">对企业来说，Devin 的吸引力在把“任务”而非“提示词”交给 AI。</div></div>
+      <div class="brow"><div class="blabel watch">约束</div><div class="btext">核心风险是长链路误差积累：计划错一点，执行十步后成本就很高。</div></div>
+      <div class="brow"><div class="blabel cant">边界</div><div class="btext">本页结论仍以当前来源文件为限；扩展到更多版本时继续补充 source_path、source_commit 与 quoted_lines。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D5 · 商业优先级</h2><span class="en">business priorities</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 观察点</div><div class="body">需要观察是否把任务导向 Devin 自己的平台能力、沙箱环境或特定部署流程。</div></div>
+      <div class="dcard"><div class="label">► 当前状态</div><div class="body">商业优先级可能体现在默认工作台和任务流里。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D6 · 运行时干预机制</h2><span class="en">runtime intervention</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 运行时层</div><div class="body">运行时干预包括任务计划更新、失败恢复、权限请求、成本提醒和环境状态注入。</div></div>
+      <div class="dcard"><div class="label">► 拆解要求</div><div class="body">这比静态 prompt 更能决定 Devin 的真实行为。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D8 · Token 体量 · Context Tax</h2><span class="en">token volume & cost</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel watch">统计口径</div><div class="btext">Devin 的成本来自长任务历史、环境观察、日志、代码 diff 和反复执行。</div></div>
+      <div class="brow"><div class="blabel can">下一步</div><div class="btext">应按任务 session 统计 context tax。</div></div>
+    </div>
+  </div>
+
+  <p class="note"><b>页面状态：</b>Devin 页已接入 <b>Misc/devin-cli.md</b> 全文。当前来源仓库只有一个 Devin CLI 主 prompt，因此时间线收敛为单条真实记录。</p>
+
+</div>
+
+  <div class="overlay" id="overlay" onclick="if(event.target===this)closeReader()">
+    <div class="reader">
+      <div class="rd-top">
+        <span class="rv" id="rdVer"></span>
+        <span class="rdt" id="rdDate"></span>
+        <span class="rtag" id="rdTag"></span>
+        <span class="rstat" id="rdStat"></span>
+        <button class="rd-close" onclick="closeReader()">&times;</button>
+      </div>
+      <div class="rd-body">
+        <div class="rd-analysis">
+          <h3>逐项详细分析</h3>
+          <div class="source-box">
+            <div><b>source_repo</b><span id="rdSourceRepo"></span></div>
+            <div><b>source_path</b><span id="rdSourcePath"></span></div>
+            <div><b>source_commit</b><span id="rdSourceCommit"></span></div>
+            <div><b>license</b><span id="rdSourceLicense"></span></div>
+            <p id="rdSourceNote"></p>
+            <div class="rd-actions">
+              <button type="button" id="rdCopyCitation">copy citation</button>
+            </div>
+            <div class="quote-jumps" id="rdSourceLines"></div>
+          </div>
+          <div id="rdAna"></div>
+        </div>
+        <div class="rd-prompt">
+          <div class="prompt-tools">
+            <h3>完整 System Prompt 原文 <span>verbatim · 来自来源仓库</span></h3>
+            <div class="prompt-search">
+              <input id="rdSearch" type="search" placeholder="搜索 prompt" autocomplete="off">
+              <button type="button" id="rdPrevHit">↑</button>
+              <button type="button" id="rdNextHit">↓</button>
+              <span id="rdSearchCount">0/0</span>
+              <button type="button" id="rdCopyPrompt">copy prompt</button>
+            </div>
+          </div>
+          <pre id="rdPrompt"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="src/reader.js" defer></script>
+</body>
+</html>

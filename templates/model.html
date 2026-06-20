@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{title}}</title>
+{{style_tag}}
+</head>
+<body data-model="{{model}}" data-model-name="{{model_name}}" data-data="{{data_path}}">
+<div class="deck">
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="{{nav_prefix}}index.html">INDEX</a>
+    <a href="{{nav_prefix}}methodology.html">METHODOLOGY</a>
+    <a href="{{nav_prefix}}claude-sample.html">CLAUDE</a>
+    <a href="{{nav_prefix}}docs/source-annotations.md">SOURCES</a>
+  </nav>
+
+  <div class="hero">
+    <div class="avatar"><span class="face">{{face}}</span><span class="logo">DOSSIER</span></div>
+    <div class="htext">
+      <h1>{{hero_title_html}}</h1>
+      <span class="persona-tag">{{persona_tag}}</span>
+    </div>
+    <div class="arrows">&raquo;&raquo;&raquo;</div>
+  </div>
+  <p class="subtitle">{{subtitle_html}}</p>
+
+{{content_html}}
+
+</div>
+
+  <div class="overlay" id="overlay" onclick="if(event.target===this)closeReader()">
+    <div class="reader">
+      <div class="rd-top">
+        <span class="rv" id="rdVer"></span>
+        <span class="rdt" id="rdDate"></span>
+        <span class="rtag" id="rdTag"></span>
+        <span class="rstat" id="rdStat"></span>
+        <button class="rd-close" onclick="closeReader()">&times;</button>
+      </div>
+      <div class="rd-body">
+        <div class="rd-analysis">
+          <h3>逐项详细分析</h3>
+          <div class="source-box">
+            <div><b>source_repo</b><span id="rdSourceRepo"></span></div>
+            <div><b>source_path</b><span id="rdSourcePath"></span></div>
+            <div><b>source_commit</b><span id="rdSourceCommit"></span></div>
+            <div><b>license</b><span id="rdSourceLicense"></span></div>
+            <p id="rdSourceNote"></p>
+            <div class="rd-actions">
+              <button type="button" id="rdCopyCitation">copy citation</button>
+            </div>
+            <div class="quote-jumps" id="rdSourceLines"></div>
+          </div>
+          <div id="rdAna"></div>
+        </div>
+        <div class="rd-prompt">
+          <div class="prompt-tools">
+            <h3>完整 System Prompt 原文 <span>verbatim · 来自来源仓库</span></h3>
+            <div class="prompt-search">
+              <input id="rdSearch" type="search" placeholder="搜索 prompt" autocomplete="off">
+              <button type="button" id="rdPrevHit">↑</button>
+              <button type="button" id="rdNextHit">↓</button>
+              <span id="rdSearchCount">0/0</span>
+              <button type="button" id="rdCopyPrompt">copy prompt</button>
+            </div>
+          </div>
+          <pre id="rdPrompt"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+{{data_tag}}
+{{reader_tag}}
+</body>
+</html>

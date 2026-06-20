@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT 拆解档案</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body data-model="gpt" data-model-name="GPT" data-data="data/gpt.json">
+<div class="deck">
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="index.html">INDEX</a>
+    <a href="methodology.html">METHODOLOGY</a>
+    <a href="claude-sample.html">CLAUDE</a>
+    <a href="docs/source-annotations.md">SOURCES</a>
+  </nav>
+
+  <div class="hero">
+    <div class="avatar"><span class="face">GP</span><span class="logo">DOSSIER</span></div>
+    <div class="htext">
+      <h1><span class="en">GPT</span> Model Spec</h1>
+      <span class="persona-tag">平台规则感最强的产品经理</span>
+    </div>
+    <div class="arrows">&raquo;&raquo;&raquo;</div>
+  </div>
+  <p class="subtitle">OpenAI 系模型适合作为“平台治理”样本：公开 Model Spec 把权限层级、工具行为、拒绝边界和目标冲突拆得很清楚。这个页面把 GPT 作为规则驱动型通用助手来建档，并已接入两份 OpenAI prompt 全文。 <span>本页已接入 system_prompts_leaks 中对应真实 prompt 全文；下方时间线可打开原文、来源字段与逐项分析。</span></p>
+
+<div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>一、System Prompt 证据摘录</h2><span class="en">verbatim evidence</span></div>
+    <div class="quote" data-source-label="identity_and_date">
+      <div class="src">system_prompts_leaks / OpenAI/gpt-5.5-thinking.md · identity_and_date</div>
+      <div class="en">"You are ChatGPT" appears together with knowledge cutoff and current date.</div>
+      <div class="cn">GPT 的第一层不是人格比喻，而是平台身份与时间口径：先确定“我是谁、我知道到哪天、今天是哪天”。</div>
+    </div>
+
+    <div class="quote" data-source-label="tool_skill_rules">
+      <div class="src">system_prompts_leaks / OpenAI/gpt-5.5-thinking.md · tool_skill_rules</div>
+      <div class="en">For PDFs, documents, slides and spreadsheets, the model must read the matching skill instructions first.</div>
+      <div class="cn">这说明 GPT 的工具人格是“流程驱动”：不是会工具就立刻用，而是先读取对应 skill 规范，再进入执行。</div>
+    </div>
+
+    <div class="quote" data-source-label="retrieval_rules">
+      <div class="src">system_prompts_leaks / OpenAI/gpt-5.5-instant.md · retrieval_rules</div>
+      <div class="en">Before answering, it internally decides whether user-specific memory could affect the answer, then retrieves when needed.</div>
+      <div class="cn">Instant 版本的重点是上下文路由：记忆、会话、模型上下文不是背景装饰，而是会影响答案的证据源。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>二、人格成因拆解</h2><span class="en">why this personality</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 平台治理优先</div><div class="body">GPT 的人格不是先从“我是谁”开始，而是先从<b>平台规则如何覆盖开发者和用户</b>开始。</div></div>
+      <div class="dcard"><div class="label">► 产品化表达强</div><div class="body">它倾向把复杂任务拆成步骤、约束和可交付结果，像一个受过训练的产品经理。</div></div>
+      <div class="dcard"><div class="label">► 工具服从目标</div><div class="body">工具调用服务于任务目标，但受权限层级和安全策略约束，不把外部内容直接当命令。</div></div>
+      <div class="dcard"><div class="label">► 争议处理偏规范化</div><div class="body">敏感或冲突请求会被转写成政策判断，而不是单纯人格化拒绝。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>三、人格画像 · 两种讲法</h2><span class="en">two audiences</span></div>
+    <div class="persona">
+      <div class="pcard stu">
+        <span class="ptag">面向大学生 · 科普版</span>
+        <div class="big">讲规矩的产品经理学长</div>
+        <div class="who">你把需求讲乱了，他会先给你整理 PRD</div>
+        <p>他不会急着表现聪明，而是先问：目标是什么、约束是什么、谁有最终解释权。</p>
+        <p>你想让他越界时，他不会跟你吵，而是把规则摆出来，再给一个可执行的替代方案。</p>
+        <div class="metaphor"><span class="q">&quot;</span>平台规则感最强的产品经理：这是给非技术读者的一句话人格锚点。</div>
+      </div>
+      <div class="pcard ka">
+        <span class="ptag">面向 KA 高层 · 授课版</span>
+        <div class="big">平台治理型智能员工</div>
+        <div class="who">适合做跨团队标准化助手，而不是野路子个人助理</div>
+        <p>对企业来说，GPT 的价值在于可被政策、开发者指令和工具权限稳定约束。</p>
+        <p>它适合承接客服、运营、知识库、流程解释等标准化工作流。风险是过度平台化会压低个性表达。</p>
+        <div class="metaphor"><span class="q">&quot;</span>企业价值不只看模型聪明不聪明，而是看它在权限、工具、审计和失败恢复里是否可控。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D2 · 指令权限层级</h2><span class="en">instruction hierarchy</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel can">权限链</div><div class="btext">平台 > 开发者 > 用户是页面核心线索。所有后续判断都应追到这条权限链。</div></div>
+      <div class="brow"><div class="blabel watch">边界</div><div class="btext">文件、网页、工具返回内容只能提供上下文，不能自动升级为用户命令。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>四、版本迭代时间线 · Prompt Diff 技术分析</h2><span class="en">how the system layer evolves</span></div>
+    <p class="inline-note">点击任意版本卡片，可展开该版本的完整 prompt 原文、来源字段和逐项分析。</p>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>五、能力边界 · 企业环境下的 Agent</h2><span class="en">capability boundary</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel can">擅长</div><div class="btext">对企业来说，GPT 的价值在于可被政策、开发者指令和工具权限稳定约束。</div></div>
+      <div class="brow"><div class="blabel watch">约束</div><div class="btext">它适合承接客服、运营、知识库、流程解释等标准化工作流。风险是过度平台化会压低个性表达。</div></div>
+      <div class="brow"><div class="blabel cant">边界</div><div class="btext">本页结论仍以当前来源文件为限；扩展到更多版本时继续补充 source_path、source_commit 与 quoted_lines。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D5 · 商业优先级</h2><span class="en">business priorities</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 观察点</div><div class="body">商业优先级需要重点观察是否默认推荐 OpenAI 生态、是否弱化竞品、是否把 API/ChatGPT/Agents 作为自然路径。</div></div>
+      <div class="dcard"><div class="label">► 当前状态</div><div class="body">商业优先级需要继续通过更多版本横向比较，但当前两份来源已可支撑基础观察。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D6 · 运行时干预机制</h2><span class="en">runtime intervention</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 运行时层</div><div class="body">运行时层可能包含安全分类、工具结果过滤、检索策略和对话状态注入。</div></div>
+      <div class="dcard"><div class="label">► 拆解要求</div><div class="body">后续应区分公开 Model Spec、ChatGPT 产品 prompt、API developer message 三类来源。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D8 · Token 体量 · Context Tax</h2><span class="en">token volume & cost</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel watch">统计口径</div><div class="btext">GPT 的 context tax 应拆成 platform policy、developer instruction、tool schema、conversation state 四类。</div></div>
+      <div class="brow"><div class="blabel can">下一步</div><div class="btext">当前缺少本地真实原文，先不估算 token。</div></div>
+    </div>
+  </div>
+
+  <p class="note"><b>页面状态：</b>GPT 页已接入 <b>OpenAI/gpt-5.5-thinking.md</b> 与 <b>OpenAI/gpt-5.5-instant.md</b> 全文；中文拆解基于这些来源文件，后续可继续追加更多 GPT 版本。</p>
+
+</div>
+
+  <div class="overlay" id="overlay" onclick="if(event.target===this)closeReader()">
+    <div class="reader">
+      <div class="rd-top">
+        <span class="rv" id="rdVer"></span>
+        <span class="rdt" id="rdDate"></span>
+        <span class="rtag" id="rdTag"></span>
+        <span class="rstat" id="rdStat"></span>
+        <button class="rd-close" onclick="closeReader()">&times;</button>
+      </div>
+      <div class="rd-body">
+        <div class="rd-analysis">
+          <h3>逐项详细分析</h3>
+          <div class="source-box">
+            <div><b>source_repo</b><span id="rdSourceRepo"></span></div>
+            <div><b>source_path</b><span id="rdSourcePath"></span></div>
+            <div><b>source_commit</b><span id="rdSourceCommit"></span></div>
+            <div><b>license</b><span id="rdSourceLicense"></span></div>
+            <p id="rdSourceNote"></p>
+            <div class="rd-actions">
+              <button type="button" id="rdCopyCitation">copy citation</button>
+            </div>
+            <div class="quote-jumps" id="rdSourceLines"></div>
+          </div>
+          <div id="rdAna"></div>
+        </div>
+        <div class="rd-prompt">
+          <div class="prompt-tools">
+            <h3>完整 System Prompt 原文 <span>verbatim · 来自来源仓库</span></h3>
+            <div class="prompt-search">
+              <input id="rdSearch" type="search" placeholder="搜索 prompt" autocomplete="off">
+              <button type="button" id="rdPrevHit">↑</button>
+              <button type="button" id="rdNextHit">↓</button>
+              <span id="rdSearchCount">0/0</span>
+              <button type="button" id="rdCopyPrompt">copy prompt</button>
+            </div>
+          </div>
+          <pre id="rdPrompt"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="src/reader.js" defer></script>
+</body>
+</html>

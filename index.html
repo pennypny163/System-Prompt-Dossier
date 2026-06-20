@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Prompt Dossier</title>
+<link rel="stylesheet" href="src/site.css">
+</head>
+<body class="site-index">
+<main class="shell">
+  <header class="top">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div>
+        <h1>System Prompt Dossier</h1>
+        <p>大模型人格档案</p>
+      </div>
+    </div>
+    <nav class="nav" aria-label="主导航">
+      <a href="methodology.html">方法论</a>
+      <a href="claude-sample.html">Claude 样张</a>
+      <a href="gpt.html">GPT</a>
+      <a href="gemini.html">Gemini</a>
+      <a href="cursor.html">Cursor</a>
+      <a href="devin.html">Devin</a>
+      <a href="docs/source-annotations.md">来源规范</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div>
+      <h2>把看不见的 <b>system prompt</b> 拆成可比较、可追溯、可复现的模型档案。</h2>
+      <p class="lead">项目以八维拆解骨架分析模型人格、权限层级、安全边界、工具规则、商业优先级、运行时干预、版本 diff 与 token 成本。当前 Claude 样张已完成，GPT、Gemini、Cursor、Devin 已补齐同结构档案页，并接入 system_prompts_leaks 的真实来源文件。</p>
+      <div class="actions">
+        <a class="btn" href="claude-sample.html">查看 Claude 样张</a>
+        <a class="btn secondary" href="methodology.html">阅读方法论</a>
+      </div>
+    </div>
+    <div class="map" aria-label="分析流程示意">
+      <div class="layer"><div class="tag">INPUT</div><div class="bar">原始 system prompt / 历史版本</div></div>
+      <div class="layer"><div class="tag">D1-D8</div><div class="bar hot">身份、权限、安全、工具、商业、运行时、Diff、Token</div></div>
+      <div class="layer"><div class="tag">EVIDENCE</div><div class="bar warn">source_repo / source_path / commit / lines / license</div></div>
+      <div class="layer"><div class="tag">OUTPUT</div><div class="bar">人格画像、企业边界、版本演进时间线</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>工作台入口</h3>
+    <div class="grid">
+      <article class="card ready">
+        <div class="state">READY</div>
+        <h4>方法论说明</h4>
+        <p>解释八维拆解骨架、理论来源和标准工作流，是所有模型档案的共同底座。</p>
+        <div class="links"><a href="methodology.html">打开 methodology.html</a></div>
+      </article>
+      <article class="card ready">
+        <div class="state">SOURCE</div>
+        <h4>来源规范</h4>
+        <p>记录 source_repo、source_path、commit、quoted_lines、license 与作者分析说明的字段规范。</p>
+        <div class="links"><a href="docs/source-annotations.md">打开来源规范</a></div>
+      </article>
+      <article class="card ready">
+        <div class="state">BUILD</div>
+        <h4>本地构建与校验</h4>
+        <p>模型页由模板和 JSON 生成，发布前可用构建脚本与 validate 脚本检查一致性。</p>
+        <div class="links"><span class="ghost">python3 scripts/build.py</span><span class="ghost">python3 scripts/validate.py</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <h3>Prompt Intelligence Dossier Library</h3>
+    <div class="grid library">
+      <article class="card ready">
+        <div class="state">PINNED SOURCE</div>
+        <h4>Claude</h4>
+        <p>从聊天人格演进到企业 Agent 操作系统，包含最完整的版本时间线与 Opus 4.8 长 prompt。</p>
+        <div class="meta">
+          <div><b>versions</b><span>5</span></div>
+          <div><b>source</b><span>已固定</span></div>
+          <div><b>license</b><span>CC0 1.0 Universal</span></div>
+          <div><b>commit</b><span>678e7fadee88</span></div>
+          <div><b>offline</b><span>dist/claude.html</span></div>
+          <div><b>latest</b><span>Opus 4.8</span></div>
+        </div>
+        <div class="links"><a href="claude-sample.html">开发页</a><a href="dist/claude.html">离线页</a></div>
+      </article>
+      <article class="card ready">
+        <div class="state">PINNED SOURCE</div>
+        <h4>GPT</h4>
+        <p>对齐 OpenAI prompt 样本，重点关注 instruction hierarchy、工具 skill、检索与个人上下文路由。</p>
+        <div class="meta">
+          <div><b>versions</b><span>2</span></div>
+          <div><b>source</b><span>已固定</span></div>
+          <div><b>license</b><span>CC0 1.0 Universal</span></div>
+          <div><b>commit</b><span>678e7fadee88</span></div>
+          <div><b>offline</b><span>dist/gpt.html</span></div>
+          <div><b>latest</b><span>5.5 Instant</span></div>
+        </div>
+        <div class="links"><a href="gpt.html">开发页</a><a href="dist/gpt.html">离线页</a></div>
+      </article>
+      <article class="card ready">
+        <div class="state">PINNED SOURCE</div>
+        <h4>Gemini</h4>
+        <p>观察通用 Gemini 与 Workspace 版本如何处理协作者人格、私域语料优先和搜索条件。</p>
+        <div class="meta">
+          <div><b>versions</b><span>2</span></div>
+          <div><b>source</b><span>已固定</span></div>
+          <div><b>license</b><span>CC0 1.0 Universal</span></div>
+          <div><b>commit</b><span>678e7fadee88</span></div>
+          <div><b>offline</b><span>dist/gemini.html</span></div>
+          <div><b>latest</b><span>Workspace</span></div>
+        </div>
+        <div class="links"><a href="gemini.html">开发页</a><a href="dist/gemini.html">离线页</a></div>
+      </article>
+      <article class="card ready">
+        <div class="state">PINNED SOURCE</div>
+        <h4>Cursor</h4>
+        <p>拆解编码 Agent 的 IDE 上下文、工具调用纪律、MCP schema 检查和模式切换规则。</p>
+        <div class="meta">
+          <div><b>versions</b><span>1</span></div>
+          <div><b>source</b><span>已固定</span></div>
+          <div><b>license</b><span>CC0 1.0 Universal</span></div>
+          <div><b>commit</b><span>678e7fadee88</span></div>
+          <div><b>offline</b><span>dist/cursor.html</span></div>
+          <div><b>latest</b><span>IDE Agent</span></div>
+        </div>
+        <div class="links"><a href="cursor.html">开发页</a><a href="dist/cursor.html">离线页</a></div>
+      </article>
+      <article class="card ready">
+        <div class="state">PINNED SOURCE</div>
+        <h4>Devin</h4>
+        <p>分析长任务自治、配置目录边界、Plan/Normal 模式和技术真实性优先的执行风格。</p>
+        <div class="meta">
+          <div><b>versions</b><span>1</span></div>
+          <div><b>source</b><span>已固定</span></div>
+          <div><b>license</b><span>CC0 1.0 Universal</span></div>
+          <div><b>commit</b><span>678e7fadee88</span></div>
+          <div><b>offline</b><span>dist/devin.html</span></div>
+          <div><b>latest</b><span>CLI</span></div>
+        </div>
+        <div class="links"><a href="devin.html">开发页</a><a href="dist/devin.html">离线页</a></div>
+      </article>
+    </div>
+  </section>
+
+  <p class="foot">来源标注规范见 <a href="docs/source-annotations.md" style="color:#f0c879;">docs/source-annotations.md</a>。新增模型前，请先补齐每条版本分析的来源字段。</p>
+</main>
+</body>
+</html>

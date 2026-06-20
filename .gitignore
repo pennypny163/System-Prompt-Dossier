@@ -1,6 +1,7 @@
 # 原始提示词库（来自 asgeirtj/system_prompts_leaks，CC0 许可）
 # 请自行克隆：git clone https://github.com/asgeirtj/system_prompts_leaks.git
 system_prompts_leaks/
+.sources/
 
 # WorkBuddy 工作区
 .workbuddy/

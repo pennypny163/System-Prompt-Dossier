@@ -4,102 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>System Prompt 拆解方法论</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  :root{
-    --bg:#1a1430; --bg2:#221a3d; --card:#2a2147; --card2:#322755;
-    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
-    --t1:#f3f0ff; --t2:#c9c2e8; --t3:#8b82b5;
-    --accent:#c97b5a; --accent2:#7f77dd; --hl:#e85d4a; --gold:#f3c98a;
-    --d1:#7f77dd; --d2:#5dcaa5; --d3:#e85d4a; --d4:#378add;
-    --d5:#ef9f27; --d6:#d4537e; --d7:#1d9e75; --d8:#b4b2a9;
-  }
-  body{ font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-    background:linear-gradient(160deg,#15102a 0%,#1a1430 50%,#231a40 100%);
-    color:var(--t1); line-height:1.7; -webkit-font-smoothing:antialiased; }
-  .deck{ max-width:1080px; margin:0 auto; padding:56px 48px 80px; }
-
-  .hero{ display:flex; align-items:flex-start; gap:18px; margin-bottom:8px; }
-  .hero .kicker{ font-size:13px; color:var(--accent2); font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
-  .hero h1{ font-size:34px; font-weight:700; letter-spacing:.5px; line-height:1.25; }
-  .hero h1 .em{ color:var(--gold); }
-  .arrows{ margin-left:auto; color:rgba(255,255,255,.22); font-size:28px; }
-  .lead{ font-size:15px; color:var(--t2); max-width:820px; margin:14px 0 40px; }
-  .lead b{ color:var(--t1); }
-
-  .sec{ margin-bottom:38px; }
-  .sec-h{ display:flex; align-items:center; gap:10px; margin-bottom:6px; }
-  .sec-h .num{ width:26px; height:26px; border-radius:8px; background:rgba(127,119,221,.2); color:var(--accent2);
-    font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; }
-  .sec-h h2{ font-size:21px; font-weight:600; }
-  .sec-sub{ font-size:13.5px; color:var(--t3); margin:0 0 18px 36px; }
-
-  /* 核心心智模型 banner */
-  .mental{ background:linear-gradient(135deg,rgba(127,119,221,.18),rgba(201,123,90,.08));
-    border:1px solid rgba(127,119,221,.35); border-radius:16px; padding:24px 28px; margin-bottom:40px; }
-  .mental .q{ font-size:22px; font-weight:600; color:var(--t1); line-height:1.5; margin-bottom:10px; }
-  .mental .q .hl{ color:var(--gold); }
-  .mental .src{ font-size:12.5px; color:var(--t3); }
-  .mental .src a,.mental .src b{ color:var(--accent2); font-weight:600; }
-
-  /* 流程：LLM=商品层 */
-  .stack{ display:flex; align-items:center; gap:0; margin:18px 0 4px; flex-wrap:wrap; }
-  .stack .layer{ flex:1; min-width:130px; text-align:center; padding:14px 10px; border-radius:10px; margin:4px; }
-  .stack .l-q{ background:var(--card2); border:1px solid var(--line); }
-  .stack .l-sp{ background:rgba(232,93,74,.16); border:1px solid rgba(232,93,74,.4); }
-  .stack .l-llm{ background:var(--card2); border:1px solid var(--line); }
-  .stack .l-tool{ background:var(--card2); border:1px solid var(--line); }
-  .stack .layer .lt{ font-size:14px; font-weight:600; color:var(--t1); }
-  .stack .layer .ld{ font-size:11.5px; color:var(--t3); margin-top:3px; }
-  .stack .arr{ color:var(--t3); font-size:20px; padding:0 2px; }
-  .stack-note{ font-size:12.5px; color:var(--t3); margin-top:8px; }
-  .stack-note b{ color:var(--hl); }
-
-  /* 来源卡 */
-  .srcgrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .scard{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; }
-  .scard .stag{ display:inline-block; font-size:11px; font-weight:600; padding:3px 9px; border-radius:12px; margin-bottom:8px; }
-  .scard.peer .stag{ background:rgba(93,202,165,.18); color:#5dcaa5; }
-  .scard.theory .stag{ background:rgba(239,159,39,.18); color:#ef9f27; }
-  .scard .sname{ font-size:15px; font-weight:600; color:var(--t1); margin-bottom:6px; }
-  .scard .sname .meta{ font-size:12px; color:var(--t3); font-weight:400; margin-left:6px; }
-  .scard .sbody{ font-size:13px; color:var(--t2); }
-  .scard .sbody b{ color:var(--gold); font-weight:600; }
-
-  /* 八维矩阵 */
-  .dims{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .dim{ background:var(--card2); border:1px solid var(--line); border-radius:12px; padding:16px 18px; position:relative; overflow:hidden; }
-  .dim::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; }
-  .dim.d1::before{background:var(--d1);} .dim.d2::before{background:var(--d2);}
-  .dim.d3::before{background:var(--d3);} .dim.d4::before{background:var(--d4);}
-  .dim.d5::before{background:var(--d5);} .dim.d6::before{background:var(--d6);}
-  .dim.d7::before{background:var(--d7);} .dim.d8::before{background:var(--d8);}
-  .dim .dhead{ display:flex; align-items:baseline; gap:8px; margin-bottom:6px; }
-  .dim .dn{ font-size:12px; color:var(--t3); font-family:ui-monospace,monospace; }
-  .dim .dname{ font-size:15px; font-weight:600; color:var(--t1); }
-  .dim .dq{ font-size:12.5px; color:var(--accent2); margin-bottom:8px; }
-  .dim .dbody{ font-size:13px; color:var(--t2); }
-  .dim .dsrc{ font-size:11.5px; color:var(--t3); margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); }
-  .dim .dsrc b{ color:var(--t2); font-weight:600; }
-
-  /* 工作流 */
-  .flow{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-  .fstep{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; text-align:center; position:relative; }
-  .fstep .fn{ width:30px; height:30px; border-radius:50%; background:rgba(127,119,221,.2); color:var(--accent2);
-    font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; }
-  .fstep .ft{ font-size:14px; font-weight:600; color:var(--t1); margin-bottom:5px; }
-  .fstep .fd{ font-size:12px; color:var(--t3); }
-
-  .note{ margin-top:42px; font-size:12.5px; color:var(--t3); border-top:1px solid var(--line); padding-top:16px; line-height:1.65; }
-  .note b{ color:var(--t2); }
-  .refs{ margin-top:14px; font-size:12px; color:var(--t3); }
-  .refs li{ margin-bottom:5px; list-style:none; padding-left:16px; position:relative; }
-  .refs li::before{ content:"▸"; position:absolute; left:0; color:var(--accent2); }
-  .refs b{ color:var(--t2); }
-</style>
+<link rel="stylesheet" href="src/site.css">
 </head>
-<body>
+<body class="site-methodology">
 <div class="deck">
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="index.html">INDEX</a>
+    <a href="claude-sample.html">CLAUDE</a>
+    <a href="docs/source-annotations.md">SOURCES</a>
+  </nav>
 
   <div class="hero">
     <div>

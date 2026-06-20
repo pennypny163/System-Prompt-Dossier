@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursor 拆解档案</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body data-model="cursor" data-model-name="Cursor" data-data="data/cursor.json">
+<div class="deck">
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="index.html">INDEX</a>
+    <a href="methodology.html">METHODOLOGY</a>
+    <a href="claude-sample.html">CLAUDE</a>
+    <a href="docs/source-annotations.md">SOURCES</a>
+  </nav>
+
+  <div class="hero">
+    <div class="avatar"><span class="face">CR</span><span class="logo">DOSSIER</span></div>
+    <div class="htext">
+      <h1><span class="en">Cursor</span> Coding Agent</h1>
+      <span class="persona-tag">坐在你 IDE 里的结对工程师</span>
+    </div>
+    <div class="arrows">&raquo;&raquo;&raquo;</div>
+  </div>
+  <p class="subtitle">Cursor 适合观察编码 Agent 的工具偏好、文件编辑规则、上下文选择和开发者体验。它的 system prompt 重点不是人格陪伴，而是如何把模型变成能读 repo、改文件、跑命令的工程同事。 <span>本页已接入 system_prompts_leaks 中对应真实 prompt 全文；下方时间线可打开原文、来源字段与逐项分析。</span></p>
+
+<div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>一、System Prompt 证据摘录</h2><span class="en">verbatim evidence</span></div>
+    <div class="quote" data-source-label="identity_context">
+      <div class="src">system_prompts_leaks / Cursor/cursor.md · identity_context</div>
+      <div class="en">Cursor attaches open files, cursor position, recent files, edit history, and linter errors to the user turn.</div>
+      <div class="cn">Cursor 的“人格”来自 IDE 现场：它不是凭空聊天，而是带着当前仓库状态、编辑历史和错误信息进入任务。</div>
+    </div>
+
+    <div class="quote" data-source-label="tone_tool_rules">
+      <div class="src">system_prompts_leaks / Cursor/cursor.md · tone_tool_rules</div>
+      <div class="en">Output text is for the user; tools are for completing tasks. Shell/code comments should not be used as communication.</div>
+      <div class="cn">这条把沟通和执行分开：给人看的话走回答，真正动作走工具，避免把终端当成聊天窗口。</div>
+    </div>
+
+    <div class="quote" data-source-label="mcp_rules">
+      <div class="src">system_prompts_leaks / Cursor/cursor.md · mcp_rules</div>
+      <div class="en">Before calling MCP tools, Cursor must inspect tool descriptors and schemas.</div>
+      <div class="cn">Cursor 的工具调用纪律很工程化：先看 schema，再调用工具。这比“能调用 MCP”本身更关键。</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>二、人格成因拆解</h2><span class="en">why this personality</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 仓库优先</div><div class="body">先读上下文再行动，是 Cursor 和普通聊天模型的分水岭。</div></div>
+      <div class="dcard"><div class="label">► 最小修改</div><div class="body">好的编码 Agent 应该少动无关文件，避免把任务变成重构秀。</div></div>
+      <div class="dcard"><div class="label">► 工具链人格</div><div class="body">搜索、编辑、终端、diff、测试共同构成它的工作风格。</div></div>
+      <div class="dcard"><div class="label">► 开发者体验导向</div><div class="body">回答不只要正确，还要让工程师知道改了什么、怎么验证。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>三、人格画像 · 两种讲法</h2><span class="en">two audiences</span></div>
+    <div class="persona">
+      <div class="pcard stu">
+        <span class="ptag">面向大学生 · 科普版</span>
+        <div class="big">坐你旁边的结对编程学长</div>
+        <div class="who">你说 bug，他先打开 repo 看，不空口猜</div>
+        <p>Cursor 的好用不在于会聊天，而在于它知道代码要落在文件里、测试要跑起来。</p>
+        <p>它像一个守规矩的 pair programmer：少说废话，先把问题复现，再给补丁。</p>
+        <div class="metaphor"><span class="q">&quot;</span>坐在你 IDE 里的结对工程师：这是给非技术读者的一句话人格锚点。</div>
+      </div>
+      <div class="pcard ka">
+        <span class="ptag">面向 KA 高层 · 授课版</span>
+        <div class="big">IDE 内嵌的工程执行层</div>
+        <div class="who">适合研发提效，但必须绑定代码权限和审查流程</div>
+        <p>对企业来说，Cursor 价值在降低工程师上下文切换成本。</p>
+        <p>风险在于它能改真实代码，所以权限、审计、测试和回滚流程比人格更重要。</p>
+        <div class="metaphor"><span class="q">&quot;</span>企业价值不只看模型聪明不聪明，而是看它在权限、工具、审计和失败恢复里是否可控。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D2 · 指令权限层级</h2><span class="en">instruction hierarchy</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel can">权限链</div><div class="btext">开发者指令、仓库规则、用户请求、文件内注释之间的优先级需要明确。</div></div>
+      <div class="brow"><div class="blabel watch">边界</div><div class="btext">README、lint、test 和 CI 约定应成为行为证据。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>四、版本迭代时间线 · Prompt Diff 技术分析</h2><span class="en">how the system layer evolves</span></div>
+    <p class="inline-note">点击任意版本卡片，可展开该版本的完整 prompt 原文、来源字段和逐项分析。</p>
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>五、能力边界 · 企业环境下的 Agent</h2><span class="en">capability boundary</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel can">擅长</div><div class="btext">对企业来说，Cursor 价值在降低工程师上下文切换成本。</div></div>
+      <div class="brow"><div class="blabel watch">约束</div><div class="btext">风险在于它能改真实代码，所以权限、审计、测试和回滚流程比人格更重要。</div></div>
+      <div class="brow"><div class="blabel cant">边界</div><div class="btext">本页结论仍以当前来源文件为限；扩展到更多版本时继续补充 source_path、source_commit 与 quoted_lines。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D5 · 商业优先级</h2><span class="en">business priorities</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 观察点</div><div class="body">需要观察是否推荐 Cursor 原生功能、是否偏向某些模型供应商或编辑器工作流。</div></div>
+      <div class="dcard"><div class="label">► 当前状态</div><div class="body">商业偏好可能藏在默认工具路径里。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D6 · 运行时干预机制</h2><span class="en">runtime intervention</span></div>
+    <div class="decode">
+      <div class="dcard"><div class="label">► 运行时层</div><div class="body">运行时干预包括上下文检索、文件选择、命令许可、代码审查提示和测试反馈。</div></div>
+      <div class="dcard"><div class="label">► 拆解要求</div><div class="body">必须把“模型想做什么”和“IDE 允许它做什么”分开。</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>D8 · Token 体量 · Context Tax</h2><span class="en">token volume & cost</span></div>
+    <div class="bound">
+      <div class="brow"><div class="blabel watch">统计口径</div><div class="btext">Cursor 的 context tax 主要来自 repo context、规则文件、打开文件、diff 和终端输出。</div></div>
+      <div class="brow"><div class="blabel can">下一步</div><div class="btext">后续应按任务级别统计，而不是只统计 system prompt。</div></div>
+    </div>
+  </div>
+
+  <p class="note"><b>页面状态：</b>Cursor 页已接入 <b>Cursor/cursor.md</b> 全文。当前来源仓库只有一个 Cursor 主 prompt，因此时间线收敛为单条真实记录。</p>
+
+</div>
+
+  <div class="overlay" id="overlay" onclick="if(event.target===this)closeReader()">
+    <div class="reader">
+      <div class="rd-top">
+        <span class="rv" id="rdVer"></span>
+        <span class="rdt" id="rdDate"></span>
+        <span class="rtag" id="rdTag"></span>
+        <span class="rstat" id="rdStat"></span>
+        <button class="rd-close" onclick="closeReader()">&times;</button>
+      </div>
+      <div class="rd-body">
+        <div class="rd-analysis">
+          <h3>逐项详细分析</h3>
+          <div class="source-box">
+            <div><b>source_repo</b><span id="rdSourceRepo"></span></div>
+            <div><b>source_path</b><span id="rdSourcePath"></span></div>
+            <div><b>source_commit</b><span id="rdSourceCommit"></span></div>
+            <div><b>license</b><span id="rdSourceLicense"></span></div>
+            <p id="rdSourceNote"></p>
+            <div class="rd-actions">
+              <button type="button" id="rdCopyCitation">copy citation</button>
+            </div>
+            <div class="quote-jumps" id="rdSourceLines"></div>
+          </div>
+          <div id="rdAna"></div>
+        </div>
+        <div class="rd-prompt">
+          <div class="prompt-tools">
+            <h3>完整 System Prompt 原文 <span>verbatim · 来自来源仓库</span></h3>
+            <div class="prompt-search">
+              <input id="rdSearch" type="search" placeholder="搜索 prompt" autocomplete="off">
+              <button type="button" id="rdPrevHit">↑</button>
+              <button type="button" id="rdNextHit">↓</button>
+              <span id="rdSearchCount">0/0</span>
+              <button type="button" id="rdCopyPrompt">copy prompt</button>
+            </div>
+          </div>
+          <pre id="rdPrompt"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="src/reader.js" defer></script>
+</body>
+</html>
