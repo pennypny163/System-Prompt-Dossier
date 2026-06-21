@@ -111,6 +111,19 @@ body::before{ content:""; display:block; height:7px; background:linear-gradient(
 
 /* ---------- 版本时间线 ---------- */
 .timeline{ position:relative; padding-left:8px; }
+.tl-track{ margin-bottom:18px; }
+.tl-track:last-child{ margin-bottom:0; }
+.tl-track-head{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  margin:0 0 10px 8px; padding:8px 12px;
+  border:1px solid var(--line); border-left:4px solid var(--teal);
+  background:rgba(251,248,240,.78); border-radius:4px;
+}
+.tl-track-head h3{
+  font-size:12px; color:var(--ink); text-transform:uppercase; letter-spacing:.06em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.tl-track-head span{ color:var(--muted); font-size:11px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
 .tl-item{ position:relative; padding:0 0 8px 30px; border-left:2px solid var(--line); margin-left:8px; }
 .tl-item:last-child{ border-left:2px solid transparent; }
 .tl-item .tdot{ position:absolute; left:-9px; top:2px; width:16px; height:16px; border-radius:50%; border:3px solid var(--paper); }
@@ -206,6 +219,8 @@ body::before{ content:""; display:block; height:7px; background:linear-gradient(
     <a href="../index.html">INDEX</a>
     <a href="../methodology.html">METHODOLOGY</a>
     <a href="../claude-sample.html">CLAUDE</a>
+    <a href="../grok.html">GROK</a>
+    <a href="../copilot.html">COPILOT</a>
     <a href="../docs/source-annotations.md">SOURCES</a>
   </nav>
 
@@ -646,7 +661,7 @@ body::before{ content:""; display:block; height:7px; background:linear-gradient(
         '</button>';
       }).join('');
     }
-    V.forEach(function(v, i){
+    function versionCard(v, i){
       var item = document.createElement('div');
       item.className = 'tl-item';
       var nowTag = v.now ? '<span class="tl-now">当前最新</span>' : '';
@@ -660,8 +675,33 @@ body::before{ content:""; display:block; height:7px; background:linear-gradient(
           '<div class="tl-tag">'+v.tagline+'</div>'+
           '<div class="tl-more"><span class="ic">⊕</span> 查看完整 prompt + 详细分析</div>'+
         '</div>';
-      tl.appendChild(item);
-    });
+      return item;
+    }
+    function renderTimeline(){
+      var hasTracks = V.some(function(v){ return v.track; });
+      if(!hasTracks){
+        V.forEach(function(v, i){ tl.appendChild(versionCard(v, i)); });
+        return;
+      }
+      var tracks = [];
+      V.forEach(function(v){
+        var name = v.track || 'Ungrouped';
+        if(tracks.indexOf(name) === -1) tracks.push(name);
+      });
+      tracks.forEach(function(name){
+        var group = document.createElement('section');
+        group.className = 'tl-track';
+        var versions = V.filter(function(v){ return (v.track || 'Ungrouped') === name; });
+        group.innerHTML =
+          '<div class="tl-track-head"><h3>'+esc(name)+'</h3>'+
+          '<span>'+versions.length+' records</span></div>';
+        versions.forEach(function(v){
+          group.appendChild(versionCard(v, V.indexOf(v)));
+        });
+        tl.appendChild(group);
+      });
+    }
+    renderTimeline();
     tl.addEventListener('click', function(e){
       var c = e.target.closest('.tl-card');
       if(!c) return;

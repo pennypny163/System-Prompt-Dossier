@@ -17,11 +17,13 @@
 
 | 模型 / 产品 | 开发态页面 | 数据文件 | 发布态单文件 | 来源状态 |
 |-------------|------------|----------|--------------|----------|
-| Claude | `claude-sample.html` | `data/claude.json` | `dist/claude.html` | 已固定来源路径与 commit |
+| Claude | `claude-sample.html` | `data/claude.json` | `dist/claude.html` | 已固定来源路径与 commit；Fable 5 使用最新上游快照 |
 | GPT | `gpt.html` | `data/gpt.json` | `dist/gpt.html` | 已固定来源路径与 commit |
 | Gemini | `gemini.html` | `data/gemini.json` | `dist/gemini.html` | 已固定来源路径与 commit |
 | Cursor | `cursor.html` | `data/cursor.json` | `dist/cursor.html` | 已固定来源路径与 commit |
 | Devin | `devin.html` | `data/devin.json` | `dist/devin.html` | 已固定来源路径与 commit |
+| Grok | `grok.html` | `data/grok.json` | `dist/grok.html` | 已固定来源路径与 commit |
+| Microsoft Copilot | `copilot.html` | `data/copilot.json` | `dist/copilot.html` | 已固定来源路径与 commit |
 
 首页与方法论：
 
@@ -66,19 +68,25 @@
 ├── gemini.html
 ├── cursor.html
 ├── devin.html
+├── grok.html
+├── copilot.html
 ├── data/
 │   ├── pages.json
 │   ├── claude.json
 │   ├── gpt.json
 │   ├── gemini.json
 │   ├── cursor.json
-│   └── devin.json
+│   ├── devin.json
+│   ├── grok.json
+│   └── copilot.json
 ├── dist/
 │   ├── claude.html
 │   ├── gpt.html
 │   ├── gemini.html
 │   ├── cursor.html
-│   └── devin.html
+│   ├── devin.html
+│   ├── grok.html
+│   └── copilot.html
 ├── docs/
 │   └── source-annotations.md
 ├── scripts/
@@ -139,11 +147,15 @@ gpt.html
 gemini.html
 cursor.html
 devin.html
+grok.html
+copilot.html
 dist/claude.html
 dist/gpt.html
 dist/gemini.html
 dist/cursor.html
 dist/devin.html
+dist/grok.html
+dist/copilot.html
 ```
 
 `scripts/build_pages.py` 是构建实现模块，通常不需要直接调用。
@@ -180,10 +192,12 @@ python3 scripts/validate.py
 
 ## 来源与素材
 
-Claude、GPT、Gemini、Cursor、Devin 的真实 prompt 文本来自：
+Claude、GPT、Gemini、Cursor、Devin、Grok、Microsoft Copilot 的真实 prompt 文本来自：
 
 - [asgeirtj/system_prompts_leaks](https://github.com/asgeirtj/system_prompts_leaks)
-- 固定 commit：`678e7fadee889f036400a478acbf3c8a1d16980f`
+- 主要固定 commit：`678e7fadee889f036400a478acbf3c8a1d16980f`
+- Claude Fable 5 / Claude Code Fable 5 固定 commit：`28639e67c6774477aa32b9ef1995bae2c74c40f6`
+- Grok / Microsoft Copilot 固定 commit：`28639e67c6774477aa32b9ef1995bae2c74c40f6`
 - 来源许可证：CC0 1.0 Universal
 
 每个模型版本的 `source_path`、`source_commit` 与关键 `quoted_lines` 状态见 `docs/source-annotations.md`。

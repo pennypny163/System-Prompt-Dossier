@@ -23,6 +23,8 @@
       <a href="gemini.html">Gemini</a>
       <a href="cursor.html">Cursor</a>
       <a href="devin.html">Devin</a>
+      <a href="grok.html">Grok</a>
+      <a href="copilot.html">Copilot</a>
       <a href="docs/source-annotations.md">来源规范</a>
     </nav>
   </header>
@@ -30,7 +32,7 @@
   <section class="hero">
     <div>
       <h2>把看不见的 <b>system prompt</b> 拆成可比较、可追溯、可复现的模型档案。</h2>
-      <p class="lead">项目以八维拆解骨架分析模型人格、权限层级、安全边界、工具规则、商业优先级、运行时干预、版本 diff 与 token 成本。当前 Claude 样张已完成，GPT、Gemini、Cursor、Devin 已补齐同结构档案页，并接入 system_prompts_leaks 的真实来源文件。</p>
+      <p class="lead">项目以八维拆解骨架分析模型人格、权限层级、安全边界、工具规则、商业优先级、运行时干预、版本 diff 与 token 成本。当前 Claude、GPT、Gemini、Cursor、Devin、Grok、Copilot 已补齐同结构档案页，并接入 system_prompts_leaks 的真实来源文件。</p>
       <div class="actions">
         <a class="btn" href="claude-sample.html">查看 Claude 样张</a>
         <a class="btn secondary" href="methodology.html">阅读方法论</a>
@@ -74,14 +76,14 @@
       <article class="card ready">
         <div class="state">PINNED SOURCE</div>
         <h4>Claude</h4>
-        <p>从聊天人格演进到企业 Agent 操作系统，包含最完整的版本时间线与 Opus 4.8 长 prompt。</p>
+        <p>从聊天人格演进到企业 Agent 操作系统，已拆成 Official Claude、Claude Product、Claude Code 三条轨道，并补入 Fable 5。</p>
         <div class="meta">
-          <div><b>versions</b><span>5</span></div>
-          <div><b>source</b><span>已固定</span></div>
+          <div><b>versions</b><span>7</span></div>
+          <div><b>source</b><span>混合固定</span></div>
           <div><b>license</b><span>CC0 1.0 Universal</span></div>
-          <div><b>commit</b><span>678e7fadee88</span></div>
+          <div><b>commit</b><span>678e7f + 28639e</span></div>
           <div><b>offline</b><span>dist/claude.html</span></div>
-          <div><b>latest</b><span>Opus 4.8</span></div>
+          <div><b>latest</b><span>Fable 5</span></div>
         </div>
         <div class="links"><a href="claude-sample.html">开发页</a><a href="dist/claude.html">离线页</a></div>
       </article>
@@ -140,6 +142,34 @@
           <div><b>latest</b><span>CLI</span></div>
         </div>
         <div class="links"><a href="devin.html">开发页</a><a href="dist/devin.html">离线页</a></div>
+      </article>
+      <article class="card ready">
+        <div class="state">PINNED SOURCE</div>
+        <h4>Grok</h4>
+        <p>覆盖 xAI Grok 3/4/4.1/4.2/4.3、API、Build、personas、account、expert 与 post safety。</p>
+        <div class="meta">
+          <div><b>versions</b><span>11</span></div>
+          <div><b>source</b><span>已固定</span></div>
+          <div><b>license</b><span>CC0 1.0 Universal</span></div>
+          <div><b>commit</b><span>28639e67c677</span></div>
+          <div><b>offline</b><span>dist/grok.html</span></div>
+          <div><b>latest</b><span>4.3 Beta</span></div>
+        </div>
+        <div class="links"><a href="grok.html">开发页</a><a href="dist/grok.html">离线页</a></div>
+      </article>
+      <article class="card ready">
+        <div class="state">PINNED SOURCE</div>
+        <h4>Microsoft Copilot</h4>
+        <p>覆盖 GitHub Copilot、VS Code Copilot Agent、Copilot CLI、Word 与 macOS App 五个工作流表面。</p>
+        <div class="meta">
+          <div><b>versions</b><span>5</span></div>
+          <div><b>source</b><span>已固定</span></div>
+          <div><b>license</b><span>CC0 1.0 Universal</span></div>
+          <div><b>commit</b><span>28639e67c677</span></div>
+          <div><b>offline</b><span>dist/copilot.html</span></div>
+          <div><b>latest</b><span>GitHub Surface</span></div>
+        </div>
+        <div class="links"><a href="copilot.html">开发页</a><a href="dist/copilot.html">离线页</a></div>
       </article>
     </div>
   </section>

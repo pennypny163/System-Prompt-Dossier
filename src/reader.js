@@ -152,7 +152,7 @@
         '</button>';
       }).join('');
     }
-    V.forEach(function(v, i){
+    function versionCard(v, i){
       var item = document.createElement('div');
       item.className = 'tl-item';
       var nowTag = v.now ? '<span class="tl-now">当前最新</span>' : '';
@@ -166,8 +166,33 @@
           '<div class="tl-tag">'+v.tagline+'</div>'+
           '<div class="tl-more"><span class="ic">⊕</span> 查看完整 prompt + 详细分析</div>'+
         '</div>';
-      tl.appendChild(item);
-    });
+      return item;
+    }
+    function renderTimeline(){
+      var hasTracks = V.some(function(v){ return v.track; });
+      if(!hasTracks){
+        V.forEach(function(v, i){ tl.appendChild(versionCard(v, i)); });
+        return;
+      }
+      var tracks = [];
+      V.forEach(function(v){
+        var name = v.track || 'Ungrouped';
+        if(tracks.indexOf(name) === -1) tracks.push(name);
+      });
+      tracks.forEach(function(name){
+        var group = document.createElement('section');
+        group.className = 'tl-track';
+        var versions = V.filter(function(v){ return (v.track || 'Ungrouped') === name; });
+        group.innerHTML =
+          '<div class="tl-track-head"><h3>'+esc(name)+'</h3>'+
+          '<span>'+versions.length+' records</span></div>';
+        versions.forEach(function(v){
+          group.appendChild(versionCard(v, V.indexOf(v)));
+        });
+        tl.appendChild(group);
+      });
+    }
+    renderTimeline();
     tl.addEventListener('click', function(e){
       var c = e.target.closest('.tl-card');
       if(!c) return;

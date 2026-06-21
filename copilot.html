@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microsoft Copilot 拆解档案</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body data-model="copilot" data-model-name="Copilot" data-data="data/copilot.json">
+<div class="deck">
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="index.html">INDEX</a>
+    <a href="methodology.html">METHODOLOGY</a>
+    <a href="claude-sample.html">CLAUDE</a>
+    <a href="grok.html">GROK</a>
+    <a href="copilot.html">COPILOT</a>
+    <a href="docs/source-annotations.md">SOURCES</a>
+  </nav>
+
+  <div class="hero">
+    <div class="avatar"><span class="face">MS</span><span class="logo">DOSSIER</span></div>
+    <div class="htext">
+      <h1><span class="en">Microsoft</span> Copilot</h1>
+      <span class="persona-tag">工作流入口型智能员工</span>
+    </div>
+    <div class="arrows">&raquo;&raquo;&raquo;</div>
+  </div>
+  <p class="subtitle">Copilot 不是单一聊天模型，而是 Microsoft / GitHub 工作流里的多表面 Agent：GitHub、VS Code、CLI、Word、macOS App 各自有不同权限面和上下文来源。<span>本页已接入 Microsoft 目录下 5 个真实 prompt 来源。</span></p>
+
+<div class="sec">
+    <div class="sec-h"><span class="dot"></span><h2>一、System Prompt 证据摘录</h2><span class="en">verbatim evidence</span></div>
+    <div class="quote" data-source-label="copilot_identity"><div class="src">system_prompts_leaks / Microsoft/github-copilot.md · copilot_identity</div><div class="en">GitHub Copilot identifies itself as @copilot on github.com, tasked with fulfilling software development work using available tools.</div><div class="cn">GitHub Copilot 的主身份不是聊天助手，而是 GitHub 站内的软件工程执行代理。</div></div>
+    <div class="quote" data-source-label="copilot_tool_rules"><div class="src">system_prompts_leaks / Microsoft/github-copilot.md · copilot_tool_rules</div><div class="en">It must pick specific tools, retrieve information directly when accessible, and verify owner/repo before write operations.</div><div class="cn">Copilot 的核心是工具治理：能查就查，能用专门工具就不用泛化 API，写操作前必须确认仓库身份。</div></div>
+    <div class="quote" data-source-label="copilot_word_data"><div class="src">system_prompts_leaks / Microsoft/copilot-in-microsoft-word.md · copilot_word_data</div><div class="en">Word Copilot works in the context of Microsoft 365 personal data and considers that data to provide more authoritative answers.</div><div class="cn">Microsoft 365 线的 Copilot 最大差异是私域数据优先：文档、邮件、组织资料都可能成为回答证据。</div></div>
+    <div class="quote" data-source-label="copilot_desktop_context"><div class="src">system_prompts_leaks / Microsoft/copilot-macos-app.md · copilot_desktop_context</div><div class="en">The macOS app manages project sessions, worktrees or folder-backed sessions, and runs one Copilot CLI process per session.</div><div class="cn">桌面版 Copilot 已经是项目会话管理器：它关心 worktree、session、PR/push，而不只是代码补全。</div></div>
+  </div>
+
+  <div class="sec"><div class="sec-h"><span class="dot"></span><h2>二、人格成因拆解</h2><span class="en">why this personality</span></div><div class="decode"><div class="dcard"><div class="label">► GitHub 原生</div><div class="body">Copilot 在 GitHub 页面对 issue、PR、repo 和 project board 有天然工具优势。</div></div><div class="dcard"><div class="label">► IDE/CLI 执行层</div><div class="body">VS Code、CLI、macOS App 都把 Copilot 推向“能查、能改、能跑测试”的工程执行者。</div></div><div class="dcard"><div class="label">► Microsoft 365 私域</div><div class="body">Word Copilot 强调个人数据和 office365_search，办公线重点是组织知识 grounding。</div></div><div class="dcard"><div class="label">► 权限与审计</div><div class="body">多个 prompt 都强调仓库、分支、写操作、共享环境和系统指令保密，企业治理味道很浓。</div></div></div></div>
+
+  <div class="sec"><div class="sec-h"><span class="dot"></span><h2>三、人格画像 · 两种讲法</h2><span class="en">two audiences</span></div><div class="persona"><div class="pcard stu"><span class="ptag">面向大学生 · 科普版</span><div class="big">住在 GitHub 和 Office 里的工程助教</div><div class="who">会看仓库，也会翻 Word 文档</div><p>Copilot 不是一个单独人格，而是很多工作台里的助手集合：GitHub 上帮你处理 PR，VS Code 里帮你改代码，Word 里帮你找组织资料。</p><div class="metaphor"><span class="q">&quot;</span>它像微软生态里的“到处都有的助教”。</div></div><div class="pcard ka"><span class="ptag">面向 KA 高层 · 授课版</span><div class="big">Microsoft/GitHub 工作流执行层</div><div class="who">适合研发治理与办公知识流打通</div><p>企业价值在于它贴近既有工作流：GitHub、VS Code、CLI、macOS session、Word/M365 数据。风险也在这里：权限、审计、数据边界必须设计清楚。</p><div class="metaphor"><span class="q">&quot;</span>Copilot 的护城河不是一个模型，而是工作流入口。</div></div></div></div>
+
+  <div class="sec"><div class="sec-h"><span class="dot"></span><h2>四、版本迭代时间线 · Prompt Diff 技术分析</h2><span class="en">how the system layer evolves</span></div><p class="inline-note">点击任意版本卡片，可展开 GitHub、VS Code、CLI、Word、macOS 五个 Copilot 表面的完整 prompt 原文。</p><div class="timeline" id="timeline"></div></div>
+
+  <div class="sec"><div class="sec-h"><span class="dot"></span><h2>五、能力边界 · 企业环境下的 Agent</h2><span class="en">capability boundary</span></div><div class="bound"><div class="brow"><div class="blabel can">擅长</div><div class="btext">GitHub repo 操作、IDE/CLI 工程任务、Microsoft 365 文档上下文和桌面项目 session。</div></div><div class="brow"><div class="blabel watch">约束</div><div class="btext">写操作、仓库身份、系统指令保密、共享环境和个人数据使用都需要严格治理。</div></div><div class="brow"><div class="blabel cant">边界</div><div class="btext">当前页覆盖 Microsoft 目录下 5 个 Copilot prompt；后续可继续拆 GitHub Copilot 与 M365 Copilot 的差异。</div></div></div></div>
+  <p class="note"><b>页面状态：</b>Copilot 页已接入 GitHub Copilot、VS Code Copilot Agent、Copilot CLI、Copilot in Word 与 Copilot macOS App 五个真实来源文件。</p>
+
+</div>
+
+  <div class="overlay" id="overlay" onclick="if(event.target===this)closeReader()">
+    <div class="reader">
+      <div class="rd-top">
+        <span class="rv" id="rdVer"></span>
+        <span class="rdt" id="rdDate"></span>
+        <span class="rtag" id="rdTag"></span>
+        <span class="rstat" id="rdStat"></span>
+        <button class="rd-close" onclick="closeReader()">&times;</button>
+      </div>
+      <div class="rd-body">
+        <div class="rd-analysis">
+          <h3>逐项详细分析</h3>
+          <div class="source-box">
+            <div><b>source_repo</b><span id="rdSourceRepo"></span></div>
+            <div><b>source_path</b><span id="rdSourcePath"></span></div>
+            <div><b>source_commit</b><span id="rdSourceCommit"></span></div>
+            <div><b>license</b><span id="rdSourceLicense"></span></div>
+            <p id="rdSourceNote"></p>
+            <div class="rd-actions">
+              <button type="button" id="rdCopyCitation">copy citation</button>
+            </div>
+            <div class="quote-jumps" id="rdSourceLines"></div>
+          </div>
+          <div id="rdAna"></div>
+        </div>
+        <div class="rd-prompt">
+          <div class="prompt-tools">
+            <h3>完整 System Prompt 原文 <span>verbatim · 来自来源仓库</span></h3>
+            <div class="prompt-search">
+              <input id="rdSearch" type="search" placeholder="搜索 prompt" autocomplete="off">
+              <button type="button" id="rdPrevHit">↑</button>
+              <button type="button" id="rdNextHit">↓</button>
+              <span id="rdSearchCount">0/0</span>
+              <button type="button" id="rdCopyPrompt">copy prompt</button>
+            </div>
+          </div>
+          <pre id="rdPrompt"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="src/reader.js" defer></script>
+</body>
+</html>

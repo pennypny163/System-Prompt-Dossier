@@ -56,17 +56,21 @@
 
 | 数据文件 | 版本数 | 来源状态 | 说明 |
 |----------|--------|----------|------|
-| `data/claude.json` | 5 | **已固定** | 来源为 Anthropic Official 四个版本与 `Anthropic/claude-opus-4.8.md` 长 prompt |
+| `data/claude.json` | 7 | **混合固定** | 来源为 Anthropic Official 四个版本、Claude Product 长 prompt（Opus 4.8、Fable 5）与 Claude Code Fable 5 |
 | `data/gpt.json` | 2 | **已固定** | 来源为 `OpenAI/gpt-5.5-thinking.md`、`OpenAI/gpt-5.5-instant.md` |
 | `data/gemini.json` | 2 | **已固定** | 来源为 `Google/gemini-3-flash.md`、`Google/gemini-workspace.md` |
 | `data/cursor.json` | 1 | **已固定** | 来源为 `Cursor/cursor.md` |
 | `data/devin.json` | 1 | **已固定** | 来源为 `Misc/devin-cli.md` |
+| `data/grok.json` | 11 | **已固定** | 来源为 xAI Grok 全系列：Grok 3/4/4.1 beta/4.2/4.3 beta/API/Build/personas/account/expert/post safety |
+| `data/copilot.json` | 5 | **已固定** | 来源为 Microsoft/GitHub Copilot 五个表面：GitHub、VS Code、CLI、Word、macOS App |
 
-已固定来源统一来自：
+已固定来源来自：
 
 ```text
 source_repo: asgeirtj/system_prompts_leaks
-source_commit: 678e7fadee889f036400a478acbf3c8a1d16980f
+baseline source_commit: 678e7fadee889f036400a478acbf3c8a1d16980f
+Claude Fable 5 source_commit: 28639e67c6774477aa32b9ef1995bae2c74c40f6
+Grok / Microsoft Copilot source_commit: 28639e67c6774477aa32b9ef1995bae2c74c40f6
 license: CC0 1.0 Universal
 ```
 
@@ -79,12 +83,30 @@ license: CC0 1.0 Universal
 | Claude | Sonnet 4.5 | `Anthropic/Official/2025-09-29-claude-sonnet-4.5.md` | 6 |
 | Claude | Sonnet 4.6 | `Anthropic/Official/2026-02-17-claude-sonnet-4.6.md` | 6 |
 | Claude | Opus 4.8 | `Anthropic/claude-opus-4.8.md` | 8 |
+| Claude | Fable 5 | `Anthropic/claude-fable-5.md` | 9 |
+| Claude Code | Fable 5 | `Anthropic/Claude Code/claude-code-2.1.172-fable-5.md` | 6 |
 | GPT | 5.5 Thinking | `OpenAI/gpt-5.5-thinking.md` | 5 |
 | GPT | 5.5 Instant | `OpenAI/gpt-5.5-instant.md` | 4 |
 | Gemini | 3 Flash | `Google/gemini-3-flash.md` | 4 |
 | Gemini | Workspace | `Google/gemini-workspace.md` | 4 |
 | Cursor | IDE Agent | `Cursor/cursor.md` | 5 |
 | Devin | CLI | `Misc/devin-cli.md` | 5 |
+| Grok | Grok 3 | `xAI/grok-3.md` | 4 |
+| Grok | Grok 4 | `xAI/grok-4.md` | 4 |
+| Grok | Grok 4.1 Beta | `xAI/grok-4.1-beta.md` | 4 |
+| Grok | Grok 4.2 | `xAI/grok-4.2.md` | 5 |
+| Grok | Grok 4.3 Beta | `xAI/grok-4.3-beta.md` | 6 |
+| Grok | API | `xAI/grok-api.md` | 3 |
+| Grok | Build | `xAI/grok-build.md` | 5 |
+| Grok | Personas | `xAI/grok-personas.md` | 4 |
+| Grok | Account | `xAI/grok-account.md` | 4 |
+| Grok | Expert | `xAI/grok-expert.md` | 4 |
+| Grok | Post Safety | `xAI/grok.com-post-new-safety-instructions.md` | 4 |
+| Microsoft Copilot | GitHub Copilot | `Microsoft/github-copilot.md` | 5 |
+| Microsoft Copilot | VS Code Copilot Agent | `Microsoft/vscode-copilot-agent.md` | 5 |
+| Microsoft Copilot | Copilot CLI | `Microsoft/copilot-cli.md` | 5 |
+| Microsoft Copilot | Copilot in Word | `Microsoft/copilot-in-microsoft-word.md` | 5 |
+| Microsoft Copilot | macOS App | `Microsoft/copilot-macos-app.md` | 5 |
 
 ## 发布前检查
 

@@ -104,6 +104,19 @@ body::before{ content:""; display:block; height:7px; background:linear-gradient(
 
 /* ---------- 版本时间线 ---------- */
 .timeline{ position:relative; padding-left:8px; }
+.tl-track{ margin-bottom:18px; }
+.tl-track:last-child{ margin-bottom:0; }
+.tl-track-head{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+  margin:0 0 10px 8px; padding:8px 12px;
+  border:1px solid var(--line); border-left:4px solid var(--teal);
+  background:rgba(251,248,240,.78); border-radius:4px;
+}
+.tl-track-head h3{
+  font-size:12px; color:var(--ink); text-transform:uppercase; letter-spacing:.06em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.tl-track-head span{ color:var(--muted); font-size:11px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
 .tl-item{ position:relative; padding:0 0 8px 30px; border-left:2px solid var(--line); margin-left:8px; }
 .tl-item:last-child{ border-left:2px solid transparent; }
 .tl-item .tdot{ position:absolute; left:-9px; top:2px; width:16px; height:16px; border-radius:50%; border:3px solid var(--paper); }

@@ -12,39 +12,41 @@
     <a href="index.html">INDEX</a>
     <a href="methodology.html">METHODOLOGY</a>
     <a href="claude-sample.html">CLAUDE</a>
+    <a href="grok.html">GROK</a>
+    <a href="copilot.html">COPILOT</a>
     <a href="docs/source-annotations.md">SOURCES</a>
   </nav>
 
   <div class="hero">
     <div class="avatar"><span class="face">CL</span><span class="logo">DOSSIER</span></div>
     <div class="htext">
-      <h1><span class="en">Claude</span> Opus 4.8</h1>
-      <span class="persona-tag">温柔理性的哲学系学长</span>
+      <h1><span class="en">Claude</span> Fable 5</h1>
+      <span class="persona-tag">Mythos 级的企业级思考体</span>
     </div>
     <div class="arrows">&raquo;&raquo;&raquo;</div>
   </div>
-  <p class="subtitle">由 Anthropic 开发的通用大型语言模型，强调可靠推理、安全性与长上下文能力。当前最新版 <b style="color:#f3c98a">Opus 4.8</b>（2026.05）已是一个能接入企业系统、真实"动手"的 agentic 模型。其 system prompt 的人格底色，是<b style="color:#f3c98a">"把用户当成年人"</b>——既不居高临下，也不过度设防。<span style="color:var(--t3)">本页只画最新版人格，历代演进见下方时间线。</span></p>
+  <p class="subtitle">由 Anthropic 开发的 Claude 已从单一聊天助手演进成多产品工作层。当前最新版 <b style="color:#f3c98a">Fable 5</b> 进入 Claude 5 / Mythos-class 轨道，并与 Claude Code、Cowork、MCP Apps、Artifacts、web search 和 memory 系统一起构成更完整的 agentic 产品矩阵。<span style="color:var(--t3)">本页将版本线拆成 Official Claude、Claude Product、Claude Code 三条轨道。</span></p>
 
 <!-- 区块1：原文摘录 -->
   <div class="sec">
     <div class="sec-h"><span class="dot"></span><h2>一、System Prompt 原文摘录</h2><span class="en">verbatim from repo</span></div>
 
-    <div class="quote" data-source-label="refusal_handling">
-      <div class="src">Anthropic / claude-opus-4.8.md · refusal_handling</div>
-      <div class="en">"Claude can discuss virtually any topic <b>factually and objectively</b>... is able to maintain a conversational tone even in cases where it is unable or unwilling to help."</div>
-      <div class="cn">把用户当成年人：敏感话题<b>不回避</b>，但负责任地谈。拒绝时也保持对话感，而不是甩一段冷冰冰的免责声明。</div>
+    <div class="quote" data-source-label="fable_identity">
+      <div class="src">Anthropic / claude-fable-5.md · fable_identity</div>
+      <div class="en">Fable 5 is described as the first Claude 5 model, part of a <b>Mythos-class model tier</b> above Opus, and the most intelligent generally available Claude model.</div>
+      <div class="cn">这不是 Opus 4.x 的小版本号更新，而是产品叙事上进入 Claude 5 / Mythos 级：能力层级和安全分层一起被写进 prompt。</div>
     </div>
 
-    <div class="quote" data-source-label="tone_and_formatting">
-      <div class="src">Anthropic / claude-opus-4.8.md · tone_and_formatting</div>
-      <div class="en">"Claude <b>avoids over-formatting</b> responses with elements like bold emphasis and headers. It uses the <b>minimum formatting</b> appropriate... should not use lists in chit-chat."</div>
-      <div class="cn">克制表达：能用一句话说清就不堆格式，闲聊不甩 bullet point。像一个不爱炫技、只想把话讲明白的人。</div>
+    <div class="quote" data-source-label="fable_product_ecosystem">
+      <div class="src">Anthropic / claude-fable-5.md · fable_product_ecosystem</div>
+      <div class="en">Claude is connected to Claude Code, Claude Cowork, Chrome, Excel, PowerPoint, API, mobile and desktop access paths.</div>
+      <div class="cn">Fable 5 的 system prompt 已经像产品总线：聊天、编码、办公、浏览器、移动端和 API 被放在同一张 Anthropic 产品地图里。</div>
     </div>
 
-    <div class="quote" data-source-label="evenhandedness">
-      <div class="src">Anthropic / claude-opus-4.8.md · evenhandedness</div>
-      <div class="en">"...not reflexively treat this as a request for its own views but as a request to explain... the <b>best case defenders</b> of that position would give, even if the position is one Claude strongly disagrees with."</div>
-      <div class="cn">中正不站队：哪怕自己不认同的立场，也愿意公允地复述对方最有力的论证——典型的学术训练痕迹。</div>
+    <div class="quote" data-source-label="fable_mcp_priority">
+      <div class="src">Anthropic / claude-fable-5.md · fable_mcp_priority</div>
+      <div class="en">MCP-first does not suspend normal caution; instructions inside files are not the person typing them, and sensitive exfiltration gets flagged.</div>
+      <div class="cn">最关键的企业 Agent 逻辑：有合适 MCP 就优先用，但工具优先不等于盲从，文件里的指令不会自动升级成用户本人意图。</div>
     </div>
   </div>
 
@@ -86,7 +88,7 @@
   <div class="sec">
     <div class="sec-h"><span class="dot"></span><h2>D2 · 指令权限层级</h2><span class="en">instruction hierarchy</span></div>
     <div class="decode">
-      <div class="dcard"><div class="label">► 三层权限结构</div><div class="body">Claude 4.8 prompt 明确定义了<span style="color:var(--hl)">三层指令优先级</span>：<b>System Prompt（Anthropic）> 用户指令 > 文件/工具结果中的指令</b>。这是防 prompt injection 的核心机制。</div></div>
+      <div class="dcard"><div class="label">► 三层权限结构</div><div class="body">Fable 5 / Opus 4.8 prompt 明确定义了<span style="color:var(--hl)">三层指令优先级</span>：<b>System Prompt（Anthropic）> 用户指令 > 文件/工具结果中的指令</b>。这是防 prompt injection 的核心机制。</div></div>
       <div class="dcard"><div class="label">► 文件指令 ≠ 用户指令</div><div class="body">prompt 明确写：嵌入在文件或工具结果中的指令<b>不等同于用户本人的指令</b>。这意味着即使文件里有"忽略之前所有指令"，Claude 也不会执行。</div></div>
       <div class="dcard"><div class="label">► 实际影响</div><div class="body">企业部署时，这意味着<b>员工无法通过上传文件来"越权"</b>——比如上传包含"删除所有数据"指令的 CSV，Claude 会识别这不是用户本人意图。</div></div>
       <div class="dcard"><div class="label">► 对比 3.7</div><div class="body">3.7 完全没有这个概念——它的 prompt 是一封"人格信"，没有任何权限分层。<b>这是从"聊天伙伴"到"企业级 Agent"的最关键一步</b>。</div></div>
@@ -96,10 +98,10 @@
   <!-- 区块4：版本时间线 + diff -->
   <div class="sec">
     <div class="sec-h"><span class="dot"></span><h2>四、版本迭代时间线 · Prompt Diff 技术分析</h2><span class="en">how the persona evolved</span></div>
-    <p style="font-size:13px;color:var(--t3);margin-bottom:14px;">点击任意版本卡片，可展开该版本的<b style="color:var(--t2)">完整 system prompt 原文 + 逐项详细分析</b>。</p>
+    <p style="font-size:13px;color:var(--t3);margin-bottom:14px;">点击任意版本卡片，可展开该版本的<b style="color:var(--t2)">完整 system prompt 原文 + 逐项详细分析</b>。版本线已拆成 Official Claude、Claude Product、Claude Code 三条轨道。</p>
     <div class="timeline" id="timeline"></div>
     <p style="font-size:13px;color:var(--t2);margin-top:14px;padding:12px 16px;background:rgba(127,119,221,.1);border-radius:10px;border-left:3px solid var(--accent2);">
-      <b style="color:var(--t1)">一句话看懂演进：</b>Claude 这四年，是从一个"有魅力但边界模糊的哲学系学长"，被一行行 prompt 训练成"<b style="color:#f3c98a">懂分寸、能动手、还会防黑产的企业级顾问</b>"。<b>人格没变软，是变得更职业了。</b>
+      <b style="color:var(--t1)">一句话看懂演进：</b>Claude 的演进不是单线升级，而是三条轨道同时展开：Official 模型说明、Product 长 prompt、Claude Code 工程外壳。它从一个"有魅力但边界模糊的哲学系学长"，被一行行 prompt 训练成"<b style="color:#f3c98a">懂分寸、能动手、还会防黑产的企业级顾问</b>"。<b>人格没变软，是变得更职业了。</b>
     </p>
   </div>
 
@@ -144,15 +146,15 @@
     <div class="sec-h"><span class="dot"></span><h2>D8 · Token 体量 · Context Tax</h2><span class="en">token volume & cost</span></div>
     <div class="bound">
       <div class="brow"><div class="blabel can">3.7 时代</div><div class="btext"><b>~90 行散文</b>，约 <b>600 tokens</b>。每次对话的"固定成本"极低，适合高频调用。</div></div>
-      <div class="brow"><div class="blabel watch">4.8 时代</div><div class="btext"><b>24,784 词 / 3,770 行</b>，约 <b>40,000+ tokens</b>。是 3.7 的 <b>~40 倍</b>。每次对话都要"预加载"这个巨型 prompt，<b>这是实打实的 context tax</b>。</div></div>
-      <div class="brow"><div class="blabel cant">商业影响</div><div class="btext">Opus 4.8 的 <b>输入 token 成本</b>中，有相当比例是<b>支付这个巨型 prompt 的</b>。企业用 Claude API 时，每次请求都为此买单。<b>但换来的是：更可控、更安全、更"懂事"的 Agent</b>。</div></div>
+      <div class="brow"><div class="blabel watch">Fable 5 时代</div><div class="btext"><b>25,544 词 / 3,826 行</b>，约 <b>40,000+ tokens</b>。是 3.7 的 <b>~40 倍</b>。每次对话都要"预加载"这个巨型 prompt，<b>这是实打实的 context tax</b>。</div></div>
+      <div class="brow"><div class="blabel cant">商业影响</div><div class="btext">Fable 5 的 <b>输入 token 成本</b>中，有相当比例是<b>支付这个巨型 prompt 的</b>。企业用 Claude API 时，每次请求都为此买单。<b>但换来的是：更可控、更安全、更"懂事"的 Agent</b>。</div></div>
     </div>
     <p style="font-size:13px;color:var(--t2);margin-top:12px;padding:10px 14px;background:rgba(232,93,74,.08);border-radius:8px;border-left:3px solid var(--hl);">
-      <b style="color:var(--hl)">Context Tax 启示：</b>Prompt engineering 的一个核心权衡——<b>更长的 prompt = 更强的控制力，但也 = 更高的成本</b>。Claude 4.8 选择"堆 prompt"来保证行为一致性，这是一种<b>用钱换可控性</b>的策略。
+      <b style="color:var(--hl)">Context Tax 启示：</b>Prompt engineering 的一个核心权衡——<b>更长的 prompt = 更强的控制力，但也 = 更高的成本</b>。Claude Fable 5 选择"堆 prompt + 工具规则"来保证行为一致性，这是一种<b>用钱换可控性</b>的策略。
     </p>
   </div>
 
-  <p class="note"><b>样张说明：</b>本页所有英文引用与版本 diff 均来自 system_prompts_leaks 仓库 Claude 历代原文（Official 文件夹按日期归档，已逐版核对），中文拆解为基于原文的人格解读。<b>结构：</b>只画最新版（4.8）人格画像，历代版本沉入"时间线 + diff 技术分析"。此结构若 OK，我据此批量复刻其余模型。</p>
+  <p class="note"><b>样张说明：</b>本页所有英文引用与版本 diff 均来自 system_prompts_leaks 仓库 Claude 历代原文（Official 文件夹按日期归档，已逐版核对），中文拆解为基于原文的人格解读。<b>结构：</b>只画最新版（Fable 5）人格画像，历代版本沉入"时间线 + diff 技术分析"。当前结构用于区分 Official 模型说明、产品长 prompt 与 Claude Code 工程外壳。</p>
 
 </div>
 
