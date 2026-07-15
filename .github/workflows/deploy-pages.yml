@@ -29,7 +29,7 @@ jobs:
       - name: Prepare static site
         run: |
           mkdir -p _site
-          cp index.html methodology.html claude-sample.html gpt.html gemini.html cursor.html devin.html grok.html copilot.html _site/
+          cp index.html methodology.html sources.html claude-sample.html gpt.html gemini.html cursor.html devin.html grok.html copilot.html _site/
           cp -r src data dist docs _site/
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
