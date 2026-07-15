@@ -31,7 +31,7 @@
 
   <section class="hero">
     <div>
-      <h2>把看不见的 <b>system prompt</b> 拆成可比较、可追溯、可复现的模型档案。</h2>
+      <h2>把看不见的 <b>system prompt</b><br>拆成可比较、可追溯、可复现的模型档案</h2>
       <p class="lead">项目以八维拆解骨架分析模型人格、权限层级、安全边界、工具规则、商业优先级、运行时干预、版本 diff 与 token 成本。当前 Claude、GPT、Gemini、Cursor、Devin、Grok、Copilot 已补齐同结构档案页，并接入 system_prompts_leaks 的真实来源文件。</p>
       <div class="actions">
         <a class="btn" href="claude-sample.html">查看 Claude 样张</a>
@@ -62,6 +62,12 @@
         <div class="links"><a href="sources.html">打开来源规范</a></div>
       </article>
       <article class="card ready">
+        <div class="state">PERSONA</div>
+        <h4>人格对比页</h4>
+        <p>把各模型的“人格画像 · 两种讲法”汇总成两张横向对比页，分别面向大学生和 KA 高层。</p>
+        <div class="links"><a href="persona-student.html">大学生版</a><a href="persona-ka.html">KA 高层版</a></div>
+      </article>
+      <article class="card ready">
         <div class="state">BUILD</div>
         <h4>本地构建与校验</h4>
         <p>模型页由模板和 JSON 生成，发布前可用构建脚本与 validate 脚本检查一致性。</p>
@@ -75,7 +81,7 @@
     <div class="grid library">
       <article class="card ready">
         <div class="state">PINNED SOURCE</div>
-        <h4>Claude</h4>
+        <div class="model-card-head"><span class="model-avatar tone-red" aria-hidden="true"><img src="assets/logos/claude.svg" alt=""></span><h4>Claude</h4></div>
         <p>从聊天人格演进到企业 Agent 操作系统，已拆成 Official Claude、Claude Product、Claude Code 三条轨道，并补入 Fable 5。</p>
         <div class="meta">
           <div><b>versions</b><span>7</span></div>
@@ -89,7 +95,7 @@
       </article>
       <article class="card ready">
         <div class="state">PINNED SOURCE</div>
-        <h4>GPT</h4>
+        <div class="model-card-head"><span class="model-avatar tone-ink" aria-hidden="true"><img src="assets/logos/openai.svg" alt=""></span><h4>GPT</h4></div>
         <p>对齐 OpenAI prompt 样本，重点关注 instruction hierarchy、工具 skill、检索与个人上下文路由。</p>
         <div class="meta">
           <div><b>versions</b><span>2</span></div>
@@ -103,7 +109,7 @@
       </article>
       <article class="card ready">
         <div class="state">PINNED SOURCE</div>
-        <h4>Gemini</h4>
+        <div class="model-card-head"><span class="model-avatar tone-blue" aria-hidden="true"><img src="assets/logos/gemini.svg" alt=""></span><h4>Gemini</h4></div>
         <p>观察通用 Gemini 与 Workspace 版本如何处理协作者人格、私域语料优先和搜索条件。</p>
         <div class="meta">
           <div><b>versions</b><span>2</span></div>
@@ -117,7 +123,7 @@
       </article>
       <article class="card ready">
         <div class="state">PINNED SOURCE</div>
-        <h4>Cursor</h4>
+        <div class="model-card-head"><span class="model-avatar tone-teal" aria-hidden="true"><img src="assets/logos/cursor.svg" alt=""></span><h4>Cursor</h4></div>
         <p>拆解编码 Agent 的 IDE 上下文、工具调用纪律、MCP schema 检查和模式切换规则。</p>
         <div class="meta">
           <div><b>versions</b><span>1</span></div>
@@ -131,7 +137,7 @@
       </article>
       <article class="card ready">
         <div class="state">PINNED SOURCE</div>
-        <h4>Devin</h4>
+        <div class="model-card-head"><span class="model-avatar tone-green" aria-hidden="true"><img src="assets/logos/cognition.svg" alt=""></span><h4>Devin</h4></div>
         <p>分析长任务自治、配置目录边界、Plan/Normal 模式和技术真实性优先的执行风格。</p>
         <div class="meta">
           <div><b>versions</b><span>1</span></div>
@@ -145,7 +151,7 @@
       </article>
       <article class="card ready">
         <div class="state">PINNED SOURCE</div>
-        <h4>Grok</h4>
+        <div class="model-card-head"><span class="model-avatar tone-amber" aria-hidden="true"><img src="assets/logos/xai.svg" alt=""></span><h4>Grok</h4></div>
         <p>覆盖 xAI Grok 3/4/4.1/4.2/4.3、API、Build、personas、account、expert 与 post safety。</p>
         <div class="meta">
           <div><b>versions</b><span>11</span></div>
@@ -159,7 +165,7 @@
       </article>
       <article class="card ready">
         <div class="state">PINNED SOURCE</div>
-        <h4>Microsoft Copilot</h4>
+        <div class="model-card-head"><span class="model-avatar tone-rose" aria-hidden="true"><img src="assets/logos/github-copilot.svg" alt=""></span><h4>Microsoft Copilot</h4></div>
         <p>覆盖 GitHub Copilot、VS Code Copilot Agent、Copilot CLI、Word 与 macOS App 五个工作流表面。</p>
         <div class="meta">
           <div><b>versions</b><span>5</span></div>
@@ -174,7 +180,7 @@
     </div>
   </section>
 
-  <p class="foot">来源标注规范见 <a href="sources.html" style="color:#f0c879;">sources.html</a>。新增模型前，请先补齐每条版本分析的来源字段。</p>
+  <p class="foot">来源标注规范见 <a href="sources.html" style="color:#f0c879;">sources.html</a>。</p>
 </main>
 </body>
 </html>

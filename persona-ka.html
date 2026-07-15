@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模型人格对比 · 面向 KA 高层</title>
+<meta name="description" content="用 KA 高层授课版口径，对比 Claude、GPT、Gemini、Cursor、Devin、Grok 与 Copilot 的企业定位、适用场景和治理边界。">
+<link rel="stylesheet" href="src/site.css">
+</head>
+<body class="site-persona site-persona-ka">
+<a class="skip-link" href="#models">跳到模型对比</a>
+<main class="persona-shell">
+  <header class="persona-top">
+    <a class="persona-brand" href="index.html" aria-label="返回 System Prompt Dossier 首页">
+      <span class="persona-mark" aria-hidden="true">D</span>
+      <span><b>System Prompt Dossier</b><small>大模型人格档案</small></span>
+    </a>
+    <nav class="persona-nav" aria-label="人格对比页面">
+      <a href="index.html">INDEX</a>
+      <a href="persona-student.html">大学生 · 科普版</a>
+      <a class="active" href="persona-ka.html" aria-current="page">KA 高层 · 授课版</a>
+    </nav>
+  </header>
+
+  <section class="persona-hero" aria-labelledby="page-title">
+    <div class="persona-hero-copy">
+      <p class="persona-kicker">AUDIENCE 02 / 02 · EXECUTIVE EDITION</p>
+      <h1 id="page-title">七类 AI 工作层，<br><em>该放进哪条业务链路？</em></h1>
+      <p class="persona-lead">同一套模型档案，换成 KA 高层授课口径。这里不讨论“谁更聪明”，而是比较它们作为企业智能员工时，各自适合进入什么工作流、承担什么责任、需要什么治理边界。</p>
+      <div class="persona-proof" aria-label="页面数据说明">
+        <span><b>7</b> 个模型</span>
+        <span><b>SELECTED</b> 当前选定的主分析版本</span>
+        <span><b>GOVERNANCE</b> 聚焦企业落地边界</span>
+      </div>
+    </div>
+    <aside class="persona-legend" aria-label="阅读方法">
+      <p class="legend-label">HOW TO READ</p>
+      <ol>
+        <li><span>01</span><p><b>先看“企业定位”</b><small>判断它更像哪类组织能力</small></p></li>
+        <li><span>02</span><p><b>再看“适合落点”</b><small>放进具体业务或研发流程</small></p></li>
+        <li><span>03</span><p><b>最后看“治理提醒”</b><small>明确权限、审计与失败恢复</small></p></li>
+      </ol>
+    </aside>
+  </section>
+
+  <section class="persona-controls" aria-label="筛选模型">
+    <div class="persona-search">
+      <label for="personaSearch">搜索模型或业务场景</label>
+      <input id="personaSearch" type="search" placeholder="例如：治理、研发、舆情、办公知识" autocomplete="off">
+    </div>
+    <div class="persona-filters" role="group" aria-label="按场景筛选">
+      <button class="active" type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button type="button" data-filter="governance" aria-pressed="false">治理合规</button>
+      <button type="button" data-filter="knowledge" aria-pressed="false">知识工作</button>
+      <button type="button" data-filter="engineering" aria-pressed="false">研发提效</button>
+      <button type="button" data-filter="growth" aria-pressed="false">市场洞察</button>
+    </div>
+    <p class="persona-count" aria-live="polite"><b id="visibleCount">7</b> / 7 类工作层在场</p>
+  </section>
+
+  <section class="persona-section" id="models" aria-labelledby="models-title">
+    <div class="persona-section-head">
+      <div><p>01 · EXECUTIVE CARDS</p><h2 id="models-title">先识别企业定位，再决定部署边界</h2></div>
+      <p>内容统一摘自各模型档案的<br>“三、人格画像 · 两种讲法”</p>
+    </div>
+
+    <div class="persona-grid">
+      <article class="persona-card" data-model="claude" data-categories="governance knowledge" data-search="claude fable 5 ka 高层 首席法务 顾问 董事会 合规 风险 判断 企业 agent">
+        <header><span class="model-avatar tone-red" aria-hidden="true"><img src="assets/logos/claude.svg" alt=""></span><div><p>Anthropic</p><h3>Claude</h3></div><span class="model-version">Fable 5</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas-ka/claude.png" alt="谨言慎行的首席法务顾问 KA 版头像"><div class="persona-role"><span>企业定位</span><strong>谨言慎行的首席法务顾问 (GC)</strong><p>董事会里说话最少、但最被信任的人</p></div></div>
+        <div class="persona-copy">
+          <p>Claude 的价值不是唯命是从，而是在真实接入企业系统后，仍然能在风险、合规与用户意图之间保持判断力。</p>
+          <p>它适合承担高不确定性问题的推理、边界判断和复杂沟通，但不适合被设计成“无条件执行器”。</p>
+        </div>
+        <blockquote>“当 Agent 能真实动手时，企业要的是会在该停的地方停下来确认的顾问。”</blockquote>
+        <dl><div><dt>适合落点</dt><dd>战略分析 · 合规判断 · 高风险知识工作</dd></div><div><dt>治理提醒</dt><dd>把确认点和不可自动化边界写进流程</dd></div></dl>
+        <a class="persona-card-link" href="claude-sample.html">查看完整 Claude 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="gpt" data-categories="governance knowledge" data-search="gpt 5.6 sol ka 高层 平台治理 智能员工 标准化 助手 权限 工具 审计">
+        <header><span class="model-avatar tone-ink" aria-hidden="true"><img src="assets/logos/openai.svg" alt=""></span><div><p>OpenAI</p><h3>GPT</h3></div><span class="model-version">5.6 Sol · Extra High</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas-ka/gpt.png" alt="平台治理型智能员工 KA 版头像"><div class="persona-role"><span>企业定位</span><strong>平台治理型智能员工</strong><p>适合做跨团队标准化助手，而不是野路子个人助理</p></div></div>
+        <div class="persona-copy">
+          <p>GPT 的优势在于平台规则、开发者指令和工具权限能形成稳定的工作边界。</p>
+          <p>它适合承接客服、运营、知识库、流程解释等标准化工作流；风险是过度平台化会压低个性表达。</p>
+        </div>
+        <blockquote>“企业价值不只看模型聪明不聪明，而是看权限、工具、审计和失败恢复是否可控。”</blockquote>
+        <dl><div><dt>适合落点</dt><dd>标准化助手 · 知识交付 · 流程解释</dd></div><div><dt>治理提醒</dt><dd>目标、权限、工具范围和验收格式要前置</dd></div></dl>
+        <a class="persona-card-link" href="gpt.html">查看完整 GPT 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="gemini" data-categories="knowledge growth" data-search="gemini 3.5 flash ka 高层 智能交互层 web 体验 复杂能力 包装 视觉 搜索">
+        <header><span class="model-avatar tone-blue" aria-hidden="true"><img src="assets/logos/gemini.svg" alt=""></span><div><p>Google</p><h3>Gemini</h3></div><span class="model-version">3.5 Flash</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas-ka/gemini.png" alt="面向用户的智能交互层 KA 版头像"><div class="persona-role"><span>企业定位</span><strong>面向用户的智能交互层</strong><p>适合把复杂能力包装成清晰、可完成的 Web 体验</p></div></div>
+        <div class="persona-copy">
+          <p>Gemini 的价值在于把复杂模型能力转译成更容易理解、可直接完成的用户体验。</p>
+          <p>它适合进入搜索、研究、解释、视觉化和用户前台交互场景，但个性化信息和组件触发边界需要清楚治理。</p>
+        </div>
+        <blockquote>“不是只看模型能力，而是看它能不能把复杂能力包装成用户愿意完成的体验。”</blockquote>
+        <dl><div><dt>适合落点</dt><dd>Web 研究 · 用户交互 · 视觉化表达</dd></div><div><dt>治理提醒</dt><dd>明确私域信息、外部搜索和展示组件的边界</dd></div></dl>
+        <a class="persona-card-link" href="gemini.html">查看完整 Gemini 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="cursor" data-categories="engineering" data-search="cursor ide agent ka 高层 工程执行层 研发提效 代码权限 审查 测试 repo">
+        <header><span class="model-avatar tone-teal" aria-hidden="true"><img src="assets/logos/cursor.svg" alt=""></span><div><p>Anysphere</p><h3>Cursor</h3></div><span class="model-version">IDE Agent</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas-ka/cursor.png" alt="IDE 内嵌的工程执行层 KA 版头像"><div class="persona-role"><span>企业定位</span><strong>IDE 内嵌的工程执行层</strong><p>适合研发提效，但必须绑定代码权限和审查流程</p></div></div>
+        <div class="persona-copy">
+          <p>Cursor 的企业价值不在“会聊天”，而在能贴近真实仓库，把问题落到文件、diff、测试和审查流程里。</p>
+          <p>它适合做研发团队的日常提效层，但必须配套分支策略、代码权限、测试门禁和人工 review。</p>
+        </div>
+        <blockquote>“把 Agent 放进 IDE，就是把智能能力放到代码变更的第一现场。”</blockquote>
+        <dl><div><dt>适合落点</dt><dd>研发提效 · Bug 修复 · 小步重构</dd></div><div><dt>治理提醒</dt><dd>绑定权限、测试和代码审查，不让它越过工程流程</dd></div></dl>
+        <a class="persona-card-link" href="cursor.html">查看完整 Cursor 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="devin" data-categories="engineering" data-search="devin cli ka 高层 自治 软件工程 执行单元 长任务 审计 权限隔离">
+        <header><span class="model-avatar tone-green" aria-hidden="true"><img src="assets/logos/cognition.svg" alt=""></span><div><p>Cognition</p><h3>Devin</h3></div><span class="model-version">CLI</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas-ka/devin.png" alt="自治型软件工程执行单元 KA 版头像"><div class="persona-role"><span>企业定位</span><strong>自治型软件工程执行单元</strong><p>适合长任务试验，但需要强审计与权限隔离</p></div></div>
+        <div class="persona-copy">
+          <p>Devin 的吸引力在于企业可以把“任务”而不只是“提示词”交给 AI。</p>
+          <p>核心风险是长链路误差积累：计划错一点，执行十步后成本就会被放大。</p>
+        </div>
+        <blockquote>“长任务 Agent 的成败，不在第一步有多聪明，而在每一步如何被审计和纠偏。”</blockquote>
+        <dl><div><dt>适合落点</dt><dd>长链路开发 · 工程自动化 · PoC 执行</dd></div><div><dt>治理提醒</dt><dd>拆里程碑、设审批点、隔离权限和运行环境</dd></div></dl>
+        <a class="persona-card-link" href="devin.html">查看完整 Devin 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="grok" data-categories="growth knowledge" data-search="grok 4.3 beta ka 高层 社交平台 实时智能 分析终端 舆情 x 多模态 persona 品牌">
+        <header><span class="model-avatar tone-amber" aria-hidden="true"><img src="assets/logos/xai.svg" alt=""></span><div><p>xAI</p><h3>Grok</h3></div><span class="model-version">4.3 Beta</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas-ka/grok.png" alt="社交平台型智能分析终端 KA 版头像"><div class="persona-role"><span>企业定位</span><strong>社交平台型智能分析终端</strong><p>适合实时舆情、内容理解和多模态任务</p></div></div>
+        <div class="persona-copy">
+          <p>Grok 的优势在 X 生态、实时检索、多模态和执行工具的组合。</p>
+          <p>风险也在这里：persona 和开放表达策略会带来更复杂的品牌一致性管理。</p>
+        </div>
+        <blockquote>“它不是传统办公助手，而是面向公共信息流的 agentic interface。”</blockquote>
+        <dl><div><dt>适合落点</dt><dd>实时舆情 · 内容理解 · 多模态探索</dd></div><div><dt>治理提醒</dt><dd>品牌口径、安全策略和 persona 边界要单独评估</dd></div></dl>
+        <a class="persona-card-link" href="grok.html">查看完整 Grok 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="copilot" data-categories="engineering knowledge governance" data-search="copilot github microsoft ka 高层 工作流 执行层 研发治理 办公知识 github office word vscode">
+        <header><span class="model-avatar tone-rose" aria-hidden="true"><img src="assets/logos/github-copilot.svg" alt=""></span><div><p>Microsoft</p><h3>Copilot</h3></div><span class="model-version">GitHub Copilot</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas-ka/copilot.png" alt="Microsoft/GitHub 工作流执行层 KA 版头像"><div class="persona-role"><span>企业定位</span><strong>Microsoft/GitHub 工作流执行层</strong><p>适合研发治理与办公知识流打通</p></div></div>
+        <div class="persona-copy">
+          <p>Copilot 的企业价值在于贴近既有工作流：GitHub、VS Code、CLI、macOS session、Word/M365 数据。</p>
+          <p>它的护城河不是一个模型，而是工作流入口；风险则集中在权限、审计和数据边界。</p>
+        </div>
+        <blockquote>“Copilot 的护城河不是一个模型，而是工作流入口。”</blockquote>
+        <dl><div><dt>适合落点</dt><dd>研发治理 · Office 知识流 · 日常工作台</dd></div><div><dt>治理提醒</dt><dd>按产品表面分别设计权限、审计和数据边界</dd></div></dl>
+        <a class="persona-card-link" href="copilot.html">查看完整 Copilot 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+    </div>
+    <div class="persona-empty" id="personaEmpty" hidden>
+      <strong>没有找到匹配的模型</strong>
+      <p>换一个关键词，或选择“全部”重新开始。</p>
+    </div>
+  </section>
+
+  <section class="persona-section comparison-section" aria-labelledby="comparison-title">
+    <div class="persona-section-head">
+      <div><p>02 · EXECUTIVE COMPARISON</p><h2 id="comparison-title">一张表看懂：企业里该怎么放</h2></div>
+      <p>不是模型排名<br>而是部署口径</p>
+    </div>
+    <div class="comparison-wrap" tabindex="0" aria-label="企业模型定位对比表，可横向滚动">
+      <table class="comparison-table">
+        <thead><tr><th scope="col">模型</th><th scope="col">企业定位</th><th scope="col">优先落点</th><th scope="col">治理抓手</th><th scope="col">主要风险</th></tr></thead>
+        <tbody>
+          <tr data-model="claude"><th scope="row">Claude</th><td>高判断力顾问</td><td>复杂分析、合规边界、战略材料</td><td>确认点、敏感操作分级</td><td>推进速度可能偏保守</td></tr>
+          <tr data-model="gpt"><th scope="row">GPT</th><td>平台治理型智能员工</td><td>标准化知识工作、流程解释、交付物生成</td><td>权限链、工具范围、验收格式</td><td>过度平台化压低个性表达</td></tr>
+          <tr data-model="gemini"><th scope="row">Gemini</th><td>用户前台智能交互层</td><td>搜索研究、解释、视觉化体验</td><td>私域信息边界、组件触发规则</td><td>个性化和搜索证据需治理</td></tr>
+          <tr data-model="cursor"><th scope="row">Cursor</th><td>IDE 内嵌工程执行层</td><td>代码阅读、修复、重构</td><td>分支、测试、review</td><td>越过工程流程会放大事故</td></tr>
+          <tr data-model="devin"><th scope="row">Devin</th><td>自治型软件工程执行单元</td><td>长任务开发、工程 PoC</td><td>里程碑、审批点、环境隔离</td><td>长链路误差积累</td></tr>
+          <tr data-model="grok"><th scope="row">Grok</th><td>社交平台型智能分析终端</td><td>实时舆情、公共信息流、多模态</td><td>品牌口径、persona 边界</td><td>开放表达带来一致性风险</td></tr>
+          <tr data-model="copilot"><th scope="row">Copilot</th><td>Microsoft/GitHub 工作流执行层</td><td>研发治理、Office 知识流</td><td>产品表面分权、审计日志</td><td>数据权限面复杂</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="persona-section route-section" aria-labelledby="route-title">
+    <div class="persona-section-head">
+      <div><p>03 · DEPLOYMENT ROUTES</p><h2 id="route-title">从企业任务反推模型入口</h2></div>
+    </div>
+    <div class="route-grid">
+      <article><span>01</span><p>我要做高风险材料和复杂决策支持</p><strong>先用 Claude，必要时让 GPT 标准化交付</strong><small>Claude 负责判断边界，GPT 负责流程化产出</small></article>
+      <article><span>02</span><p>我要把知识工作变成稳定生产线</p><strong>先用 GPT，再接 Gemini 做前台体验</strong><small>把权限、证据和交付格式先固化</small></article>
+      <article><span>03</span><p>我要提升研发团队效率</p><strong>小步变更用 Cursor，长任务试验用 Devin</strong><small>两者都必须挂到测试、review 和审计流程</small></article>
+      <article><span>04</span><p>我要观察市场舆情或公共信息流</p><strong>实时感知看 Grok，组织落地看 Copilot</strong><small>先明确品牌口径、数据边界和产品表面</small></article>
+    </div>
+  </section>
+
+  <footer class="persona-footer">
+    <p><b>口径说明</b> 本页汇总仓库当前选定的主分析版本；Claude 保留 Fable 5，GPT 与 Gemini 使用最新收入档案的版本。KA 高层讲法是对 system prompt 行为规则的企业部署解释，不代表模型具有真实职级或组织角色。</p>
+    <div><a href="persona-student.html">切换到大学生 · 科普版</a><a href="methodology.html">查看拆解方法论</a><a href="sources.html">查看来源规范</a></div>
+  </footer>
+</main>
+<script src="src/persona-student.js" defer></script>
+</body>
+</html>

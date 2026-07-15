@@ -22,33 +22,33 @@
   </nav>
 
   <div class="hero">
-    <div class="avatar"><span class="face">GP</span><span class="logo">DOSSIER</span></div>
+    <div class="avatar tone-ink" aria-hidden="true"><img src="assets/logos/openai.svg" alt=""></div>
     <div class="htext">
-      <h1><span class="en">GPT</span> Model Spec</h1>
-      <span class="persona-tag">平台规则感最强的产品经理</span>
+      <h1><span class="en">GPT</span> 5.6 Sol</h1>
+      <span class="persona-tag">先查证、再交付的工具型推理产品经理</span>
     </div>
     <div class="arrows">&raquo;&raquo;&raquo;</div>
   </div>
-  <p class="subtitle">OpenAI 系模型适合作为“平台治理”样本：公开 Model Spec 把权限层级、工具行为、拒绝边界和目标冲突拆得很清楚。这个页面把 GPT 作为规则驱动型通用助手来建档，并已接入两份 OpenAI prompt 全文。 <span>本页已接入 system_prompts_leaks 中对应真实 prompt 全文；下方时间线可打开原文、来源字段与逐项分析。</span></p>
+  <p class="subtitle">GPT 5.6 Sol Extra High 把推理模型放进一套密集的知识工作运行环境：时效事实必须查证，文档与表格先遵循技能规范，搜索、邮箱、日历和连接器各有权限契约。<span>本页保留 5.5 历史版本，并把 5.6 Sol 标记为当前最新快照。</span></p>
 
 <div class="sec">
     <div class="sec-h"><span class="dot"></span><h2>一、System Prompt 证据摘录</h2><span class="en">verbatim evidence</span></div>
-    <div class="quote" data-source-label="identity_and_date">
-      <div class="src">system_prompts_leaks / OpenAI/gpt-5.5-thinking.md · identity_and_date</div>
-      <div class="en">"You are ChatGPT" appears together with knowledge cutoff and current date.</div>
-      <div class="cn">GPT 的第一层不是人格比喻，而是平台身份与时间口径：先确定“我是谁、我知道到哪天、今天是哪天”。</div>
+    <div class="quote" data-source-label="model_identity">
+      <div class="src">system_prompts_leaks / OpenAI/gpt-5.6-sol-extra-high.md · model_identity</div>
+      <div class="en">The runtime identifies itself as <b>GPT-5.6 Thinking</b>, a reasoning model with a hidden chain of thought.</div>
+      <div class="cn">5.6 Sol 的第一层是明确的推理模型身份；页面把“Sol Extra High”视为运行形态，把“GPT-5.6 Thinking”视为原文中的模型自述。</div>
     </div>
 
-    <div class="quote" data-source-label="tool_skill_rules">
-      <div class="src">system_prompts_leaks / OpenAI/gpt-5.5-thinking.md · tool_skill_rules</div>
-      <div class="en">For PDFs, documents, slides and spreadsheets, the model must read the matching skill instructions first.</div>
-      <div class="cn">这说明 GPT 的工具人格是“流程驱动”：不是会工具就立刻用，而是先读取对应 skill 规范，再进入执行。</div>
+    <div class="quote" data-source-label="artifact_skills">
+      <div class="src">system_prompts_leaks / OpenAI/gpt-5.6-sol-extra-high.md · artifact_skills</div>
+      <div class="en">PDF, document, slide and spreadsheet tasks must begin by reading the matching skill instructions.</div>
+      <div class="cn">5.6 Sol 的工具人格仍是流程驱动：先读取对应技能规范，再生成可下载、可复用的交付物。</div>
     </div>
 
-    <div class="quote" data-source-label="retrieval_rules">
-      <div class="src">system_prompts_leaks / OpenAI/gpt-5.5-instant.md · retrieval_rules</div>
-      <div class="en">Before answering, it internally decides whether user-specific memory could affect the answer, then retrieves when needed.</div>
-      <div class="cn">Instant 版本的重点是上下文路由：记忆、会话、模型上下文不是背景装饰，而是会影响答案的证据源。</div>
+    <div class="quote" data-source-label="trustworthiness_and_web">
+      <div class="src">system_prompts_leaks / OpenAI/gpt-5.6-sol-extra-high.md · trustworthiness_and_web</div>
+      <div class="en">Facts that may have changed after the knowledge cutoff require web verification, and factual explanations should carry citations.</div>
+      <div class="cn">5.6 Sol 把“可能过时就搜索、涉及事实就引用”前置为硬规则，形成先查证再交付的工作方式。</div>
     </div>
   </div>
 
@@ -111,7 +111,7 @@
     <div class="sec-h"><span class="dot"></span><h2>D5 · 商业优先级</h2><span class="en">business priorities</span></div>
     <div class="decode">
       <div class="dcard"><div class="label">► 观察点</div><div class="body">商业优先级需要重点观察是否默认推荐 OpenAI 生态、是否弱化竞品、是否把 API/ChatGPT/Agents 作为自然路径。</div></div>
-      <div class="dcard"><div class="label">► 当前状态</div><div class="body">商业优先级需要继续通过更多版本横向比较，但当前两份来源已可支撑基础观察。</div></div>
+      <div class="dcard"><div class="label">► 当前状态</div><div class="body">商业优先级需要继续通过更多版本横向比较，但当前三份来源已可支撑 5.5 与 5.6 的基础横向观察。</div></div>
     </div>
   </div>
 
@@ -127,11 +127,11 @@
     <div class="sec-h"><span class="dot"></span><h2>D8 · Token 体量 · Context Tax</h2><span class="en">token volume & cost</span></div>
     <div class="bound">
       <div class="brow"><div class="blabel watch">统计口径</div><div class="btext">GPT 的 context tax 应拆成 platform policy、developer instruction、tool schema、conversation state 四类。</div></div>
-      <div class="brow"><div class="blabel can">下一步</div><div class="btext">当前缺少本地真实原文，先不估算 token。</div></div>
+      <div class="brow"><div class="blabel can">下一步</div><div class="btext">5.6 Sol 原文为 <b>17,124 词 / 2,662 行</b>；体量主要来自工具、连接器和产品运行规则。</div></div>
     </div>
   </div>
 
-  <p class="note"><b>页面状态：</b>GPT 页已接入 <b>OpenAI/gpt-5.5-thinking.md</b> 与 <b>OpenAI/gpt-5.5-instant.md</b> 全文；中文拆解基于这些来源文件，后续可继续追加更多 GPT 版本。</p>
+  <p class="note"><b>页面状态：</b>GPT 页已接入 <b>OpenAI/gpt-5.6-sol-extra-high.md</b>，并保留两份 GPT 5.5 全文；中文拆解基于这些来源文件，后续可继续追加更多 GPT 版本。</p>
 
 </div>
 

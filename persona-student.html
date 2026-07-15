@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模型人格对比 · 面向大学生</title>
+<meta name="description" content="用大学生能快速理解的方式，对比 Claude、GPT、Gemini、Cursor、Devin、Grok 与 Copilot 的最新模型人格。">
+<link rel="stylesheet" href="src/site.css">
+</head>
+<body class="site-persona site-persona-student">
+<a class="skip-link" href="#models">跳到模型对比</a>
+<main class="persona-shell">
+  <header class="persona-top">
+    <a class="persona-brand" href="index.html" aria-label="返回 System Prompt Dossier 首页">
+      <span class="persona-mark" aria-hidden="true">D</span>
+      <span><b>System Prompt Dossier</b><small>大模型人格档案</small></span>
+    </a>
+    <nav class="persona-nav" aria-label="人格对比页面">
+      <a href="index.html">INDEX</a>
+      <a class="active" href="persona-student.html" aria-current="page">大学生 · 科普版</a>
+      <a href="persona-ka.html">KA 高层 · 授课版</a>
+    </nav>
+  </header>
+
+  <section class="persona-hero" aria-labelledby="page-title">
+    <div class="persona-hero-copy">
+      <p class="persona-kicker">AUDIENCE 01 / 02 · CAMPUS EDITION</p>
+      <h1 id="page-title">七位 AI 同学，<br><em>谁更适合你的任务？</em></h1>
+      <p class="persona-lead">同一套模型档案，换成大学生听得懂的讲法。这里不比跑分，而是比较它们会怎样理解你、推进任务，以及在什么地方最值得信任。</p>
+      <div class="persona-proof" aria-label="页面数据说明">
+        <span><b>7</b> 个模型</span>
+        <span><b>SELECTED</b> 当前选定的主分析版本</span>
+        <span><b>TRACEABLE</b> 可回到完整来源页</span>
+      </div>
+    </div>
+    <aside class="persona-legend" aria-label="阅读方法">
+      <p class="legend-label">HOW TO READ</p>
+      <ol>
+        <li><span>01</span><p><b>先看“像谁”</b><small>快速建立人格直觉</small></p></li>
+        <li><span>02</span><p><b>再看“适合什么”</b><small>把模型放进真实任务</small></p></li>
+        <li><span>03</span><p><b>最后看“别忘了”</b><small>理解能力边界与风险</small></p></li>
+      </ol>
+    </aside>
+  </section>
+
+  <section class="persona-controls" aria-label="筛选模型">
+    <div class="persona-search">
+      <label for="personaSearch">搜索模型或任务</label>
+      <input id="personaSearch" type="search" placeholder="例如：论文、编程、资料整理" autocomplete="off">
+    </div>
+    <div class="persona-filters" role="group" aria-label="按场景筛选">
+      <button class="active" type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button type="button" data-filter="writing" aria-pressed="false">写作表达</button>
+      <button type="button" data-filter="research" aria-pressed="false">检索研究</button>
+      <button type="button" data-filter="coding" aria-pressed="false">编程开发</button>
+      <button type="button" data-filter="planning" aria-pressed="false">规划执行</button>
+    </div>
+    <p class="persona-count" aria-live="polite"><b id="visibleCount">7</b> / 7 位同学在场</p>
+  </section>
+
+  <section class="persona-section" id="models" aria-labelledby="models-title">
+    <div class="persona-section-head">
+      <div><p>01 · PERSONA CARDS</p><h2 id="models-title">先认识它们，再决定把任务交给谁</h2></div>
+      <p>内容统一摘自各模型档案的<br>“三、人格画像 · 两种讲法”</p>
+    </div>
+
+    <div class="persona-grid">
+      <article class="persona-card" data-model="claude" data-categories="writing research" data-search="claude fable 5 论文 写作 学习 解释 思辨 哲学">
+        <header><span class="model-avatar tone-red" aria-hidden="true"><img src="assets/logos/claude.svg" alt=""></span><div><p>Anthropic</p><h3>Claude</h3></div><span class="model-version">Fable 5</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas/claude.png" alt="温柔理性的哲学系学长 Q 版头像"><div class="persona-role"><span>像谁</span><strong>温柔理性的哲学系学长</strong><p>就是你们系里那个戴眼镜的直系学长</p></div></div>
+        <div class="persona-copy">
+          <p>你问他一道难题，他不会甩给你一堆资料让你自己看，而是先把概念讲明白，再用比喻帮你理解。你说点丧气话，他会认真接住，而不是敷衍“加油”。</p>
+          <p>他有自己的观点，但不强塞给你；遇到争议话题，会把正反两方的想法摆出来，让你自己判断。</p>
+        </div>
+        <blockquote>“不爱用标题装门面，说话像人话。”</blockquote>
+        <dl><div><dt>适合</dt><dd>论文润色 · 概念讲解 · 深度讨论</dd></div><div><dt>别忘了</dt><dd>谨慎是优点，也可能让推进显得慢</dd></div></dl>
+        <a class="persona-card-link" href="claude-sample.html">查看完整 Claude 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="gpt" data-categories="writing coding planning research" data-search="gpt 5.6 sol extra high 查证 交付物 需求 prd 规划 通用 编程 写作 产品经理">
+        <header><span class="model-avatar tone-ink" aria-hidden="true"><img src="assets/logos/openai.svg" alt=""></span><div><p>OpenAI</p><h3>GPT</h3></div><span class="model-version">5.6 Sol · Extra High</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas/gpt.png" alt="讲规矩的产品经理学长 Q 版头像"><div class="persona-role"><span>像谁</span><strong>讲规矩的产品经理学长</strong><p>你把需求讲乱了，他会先给你整理 PRD</p></div></div>
+        <div class="persona-copy">
+          <p>他不会急着表现聪明，而是先问：目标是什么、约束是什么、哪些事实需要重新查证。</p>
+          <p>要做文档、表格或幻灯片时，他会先照工具规范走完流程，再把可用的交付物给你。</p>
+        </div>
+        <blockquote>“先查证，再按流程把东西交出来。”</blockquote>
+        <dl><div><dt>适合</dt><dd>资料查证 · 方案拆解 · 文档/表格交付</dd></div><div><dt>别忘了</dt><dd>目标、约束和交付格式要说清楚</dd></div></dl>
+        <a class="persona-card-link" href="gpt.html">查看完整 GPT 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="gemini" data-categories="research writing" data-search="gemini 3.5 flash web 自适应 同伴 视觉 组件 解释 写作 研究">
+        <header><span class="model-avatar tone-blue" aria-hidden="true"><img src="assets/logos/gemini.svg" alt=""></span><div><p>Google</p><h3>Gemini</h3></div><span class="model-version">3.5 Flash</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas/gemini.png" alt="会把复杂问题讲成人话的跨学科学姐 Q 版头像"><div class="persona-role"><span>像谁</span><strong>会把复杂问题讲成人话的跨学科学姐</strong><p>懂很多，但会先对齐你的知识水平</p></div></div>
+        <div class="persona-copy">
+          <p>Gemini 3.5 Flash 会先给出核心答案，再用你熟悉的词解释复杂概念；遇到挫折时，它会接住感受，但也会坦率指出问题。</p>
+          <p>它不会为了显得专业而堆术语，也不会为了热情而不断追问；能完成的任务就直接完成。</p>
+        </div>
+        <blockquote>“温暖但不讨好，清晰但不端着。”</blockquote>
+        <dl><div><dt>适合</dt><dd>概念解释 · Web 研究 · 视觉化表达</dd></div><div><dt>别忘了</dt><dd>个性化信息和视觉组件都要有边界</dd></div></dl>
+        <a class="persona-card-link" href="gemini.html">查看完整 Gemini 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="cursor" data-categories="coding" data-search="cursor ide agent 编程 代码 bug 调试 repo 测试 pair programmer">
+        <header><span class="model-avatar tone-teal" aria-hidden="true"><img src="assets/logos/cursor.svg" alt=""></span><div><p>Anysphere</p><h3>Cursor</h3></div><span class="model-version">IDE Agent</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas/cursor.png" alt="坐在旁边结对编程的工程师学姐 Q 版头像"><div class="persona-role"><span>像谁</span><strong>坐你旁边的结对编程学姐</strong><p>你说 bug，她先打开 repo 看，不空口猜</p></div></div>
+        <div class="persona-copy">
+          <p>Cursor 的好用不在于会聊天，而在于它知道代码要落在文件里、测试要跑起来。</p>
+          <p>它像一个守规矩的 pair programmer：少说废话，先把问题复现，再给补丁。</p>
+        </div>
+        <blockquote>“坐在你 IDE 里的结对工程师。”</blockquote>
+        <dl><div><dt>适合</dt><dd>代码阅读 · Bug 修复 · 小步重构</dd></div><div><dt>别忘了</dt><dd>给它完整仓库上下文，不要只贴报错</dd></div></dl>
+        <a class="persona-card-link" href="cursor.html">查看完整 Cursor 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="devin" data-categories="coding planning" data-search="devin cli 编程 工程 长任务 计划 执行 测试 实习生">
+        <header><span class="model-avatar tone-green" aria-hidden="true"><img src="assets/logos/cognition.svg" alt=""></span><div><p>Cognition</p><h3>Devin</h3></div><span class="model-version">CLI</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas/devin.png" alt="会排计划的远程实习工程师 Q 版头像"><div class="persona-role"><span>像谁</span><strong>远程实习工程师</strong><p>能自己推进，但关键节点要你看一眼</p></div></div>
+        <div class="persona-copy">
+          <p>Devin 像一个愿意从早干到晚的实习生：会列计划、查资料、改代码、跑测试。</p>
+          <p>但它也可能误解目标，所以最重要的是让它在关键节点停下来确认。</p>
+        </div>
+        <blockquote>“会排计划的远程初级工程师。”</blockquote>
+        <dl><div><dt>适合</dt><dd>长链路开发 · 自动执行 · 工程任务</dd></div><div><dt>别忘了</dt><dd>里程碑必须验收，别等到最后才检查</dd></div></dl>
+        <a class="persona-card-link" href="devin.html">查看完整 Devin 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="grok" data-categories="research writing" data-search="grok 4.3 beta x 实时 搜索 图片 争议 讨论 创意 互联网">
+        <header><span class="model-avatar tone-amber" aria-hidden="true"><img src="assets/logos/xai.svg" alt=""></span><div><p>xAI</p><h3>Grok</h3></div><span class="model-version">4.3 Beta</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas/grok.png" alt="喜欢抬杠但会查证的互联网学姐 Q 版头像"><div class="persona-role"><span>像谁</span><strong>喜欢抬杠但会查证的互联网学姐</strong><p>刷 X、会搜、会画图、也有点锋芒</p></div></div>
+        <div class="persona-copy">
+          <p>Grok 的气质不是温吞的客服，而是一个会说“让我查一下”的社交网络原住民。</p>
+          <p>它愿意处理争议，但会强调自己不是任何政治阵营的扩音器。</p>
+        </div>
+        <blockquote>“自带搜索、图片工具和 persona 皮肤的讨论搭子。”</blockquote>
+        <dl><div><dt>适合</dt><dd>实时热点 · 开放讨论 · 多模态创意</dd></div><div><dt>别忘了</dt><dd>锋利表达不等于事实一定可靠</dd></div></dl>
+        <a class="persona-card-link" href="grok.html">查看完整 Grok 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="persona-card" data-model="copilot" data-categories="coding research planning" data-search="copilot github office word vscode cli 编程 办公 文档 工作流 工程助教">
+        <header><span class="model-avatar tone-rose" aria-hidden="true"><img src="assets/logos/github-copilot.svg" alt=""></span><div><p>Microsoft</p><h3>Copilot</h3></div><span class="model-version">GitHub Copilot</span></header>
+        <div class="persona-profile"><img class="persona-portrait" src="assets/personas/copilot.png" alt="住在 GitHub 和 Office 里的工程助教 Q 版头像"><div class="persona-role"><span>像谁</span><strong>住在 GitHub 和 Office 里的工程助教</strong><p>会看仓库，也会翻 Word 文档</p></div></div>
+        <div class="persona-copy">
+          <p>Copilot 不是一个单独人格，而是很多工作台里的助手集合。</p>
+          <p>GitHub 上帮你处理 PR，VS Code 里帮你改代码，Word 里帮你找组织资料。</p>
+        </div>
+        <blockquote>“微软生态里到处都有的助教。”</blockquote>
+        <dl><div><dt>适合</dt><dd>GitHub 开发 · Office 文档 · 日常工作流</dd></div><div><dt>别忘了</dt><dd>先确认它在哪个产品和权限范围里</dd></div></dl>
+        <a class="persona-card-link" href="copilot.html">查看完整 Copilot 档案 <span aria-hidden="true">↗</span></a>
+      </article>
+    </div>
+    <div class="persona-empty" id="personaEmpty" hidden>
+      <strong>没有找到匹配的模型</strong>
+      <p>换一个关键词，或选择“全部”重新开始。</p>
+    </div>
+  </section>
+
+  <section class="persona-section comparison-section" aria-labelledby="comparison-title">
+    <div class="persona-section-head">
+      <div><p>02 · QUICK COMPARISON</p><h2 id="comparison-title">一张表看懂：该把任务交给谁</h2></div>
+      <p>不是能力排行榜<br>而是任务匹配指南</p>
+    </div>
+    <div class="comparison-wrap" tabindex="0" aria-label="模型任务对比表，可横向滚动">
+      <table class="comparison-table">
+        <thead><tr><th scope="col">模型</th><th scope="col">第一印象</th><th scope="col">最适合先试</th><th scope="col">合作方法</th><th scope="col">使用提醒</th></tr></thead>
+        <tbody>
+          <tr data-model="claude"><th scope="row">Claude</th><td>耐心、克制、有分寸</td><td>论文与深度解释</td><td>给背景，让它帮你推理</td><td>关键事实仍需核对</td></tr>
+          <tr data-model="gpt"><th scope="row">GPT</th><td>结构化、查证优先、工具感强</td><td>把模糊需求变成可交付方案</td><td>先说目标、约束和交付格式</td><td>工具多不等于可以省掉验收</td></tr>
+          <tr data-model="gemini"><th scope="row">Gemini</th><td>温暖、清晰、自适应</td><td>解释复杂概念与视觉化表达</td><td>说明你的知识水平和预期形式</td><td>留意个性化与组件触发边界</td></tr>
+          <tr data-model="cursor"><th scope="row">Cursor</th><td>工程化、直接</td><td>在真实仓库里修 Bug</td><td>开放上下文，小步改代码</td><td>每次改动都要跑测试</td></tr>
+          <tr data-model="devin"><th scope="row">Devin</th><td>自主、任务导向</td><td>完整的软件工程任务</td><td>设里程碑，分阶段验收</td><td>长链路错误会累积</td></tr>
+          <tr data-model="grok"><th scope="row">Grok</th><td>实时、锋利、有网感</td><td>热点、争议和创意探索</td><td>让它查证，再要求给来源</td><td>表达自信不代表证据充分</td></tr>
+          <tr data-model="copilot"><th scope="row">Copilot</th><td>工作流型、嵌入式</td><td>GitHub 与 Office 日常任务</td><td>在对应产品里调用它</td><td>先看数据权限和操作范围</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="persona-section route-section" aria-labelledby="route-title">
+    <div class="persona-section-head">
+      <div><p>03 · TASK ROUTES</p><h2 id="route-title">还不知道选谁？从任务出发</h2></div>
+    </div>
+    <div class="route-grid">
+      <article><span>01</span><p>我要把一个难概念真正学懂</p><strong>深度推理找 Claude，直观讲解找 Gemini</strong><small>需要时让 Gemini 用图像或结构化组件辅助理解</small></article>
+      <article><span>02</span><p>我要把模糊想法整理成方案</p><strong>先找 GPT</strong><small>先写清目标与约束，效果会明显提升</small></article>
+      <article><span>03</span><p>我要在真实仓库里解决问题</p><strong>小步找 Cursor，长任务找 Devin</strong><small>无论选谁，都要保留测试和验收节点</small></article>
+      <article><span>04</span><p>我要研究热点或整理大量材料</p><strong>实时看 Grok，资料看 Gemini</strong><small>最终结论回到原始来源核对</small></article>
+    </div>
+  </section>
+
+  <footer class="persona-footer">
+    <p><b>口径说明</b> 本页汇总仓库当前选定的主分析版本；Claude 保留 Fable 5，GPT 与 Gemini 使用最新收入档案的版本。人格比喻是对 system prompt 行为规则的中文解释，不代表模型具有真实人格。</p>
+    <div><a href="methodology.html">查看拆解方法论</a><a href="sources.html">查看来源规范</a></div>
+  </footer>
+</main>
+<script src="src/persona-student.js" defer></script>
+</body>
+</html>
