@@ -278,6 +278,13 @@ def validate_generated_pages(pages: list[dict[str, str]], errors: list[str]) -> 
         elif dist_path.read_text(encoding="utf-8") != expected_dist:
             errors.append(f"dist/{page['dist_page']}: generated dist page is stale; run python3 scripts/build.py")
 
+    sources_path = ROOT / "sources.html"
+    expected_sources = build_pages.render_sources_page()
+    if not sources_path.is_file():
+        errors.append("sources.html: generated sources page is missing")
+    elif sources_path.read_text(encoding="utf-8") != expected_sources:
+        errors.append("sources.html: generated sources page is stale; run python3 scripts/build.py")
+
 
 def main() -> int:
     errors: list[str] = []
@@ -287,7 +294,7 @@ def main() -> int:
         if data_path.name != "pages.json":
             validate_data_file(data_path, errors)
 
-    html_paths = [ROOT / "index.html", ROOT / "methodology.html"]
+    html_paths = [ROOT / "index.html", ROOT / "methodology.html", ROOT / "sources.html"]
     html_paths.extend(ROOT / page["source_page"] for page in pages)
     html_paths.extend(ROOT / "dist" / page["dist_page"] for page in pages)
     for html_path in html_paths:

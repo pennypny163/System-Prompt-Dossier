@@ -200,6 +200,18 @@ body.reader-open{ overflow:hidden; }
 .prompt-line.is-target{ background:#f4ead5; outline:1px solid rgba(168,114,23,.35); }
 .prompt-hit{ background:#f5e5df; color:var(--red); border-radius:2px; padding:0 1px; }
 .prompt-hit.is-active{ background:var(--red); color:var(--white); }
+.source-doc{ background:var(--white); border:1px solid var(--line); border-radius:4px; padding:24px 26px; overflow:auto; }
+.source-doc h1{ font-size:28px; line-height:1.2; margin-bottom:18px; font-family:Georgia,"Times New Roman","Songti SC",serif; color:var(--ink); }
+.source-doc h2{ font-size:18px; margin:28px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--line); color:var(--red); }
+.source-doc p,.source-doc li{ font-size:14px; color:var(--muted); line-height:1.75; }
+.source-doc p{ margin-bottom:12px; }
+.source-doc ul{ margin:0 0 14px 18px; }
+.source-doc table{ width:100%; border-collapse:collapse; margin:14px 0 22px; font-size:12px; min-width:680px; }
+.source-doc th,.source-doc td{ border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+.source-doc th{ background:#f7f2e8; color:var(--ink); font-weight:700; }
+.source-doc code{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.92em; color:var(--ink); background:#f7f2e8; border:1px solid var(--line); border-radius:3px; padding:1px 4px; }
+.source-doc pre{ margin:14px 0 22px; padding:14px 16px; background:var(--ink); color:var(--white); border-radius:4px; overflow:auto; font-size:12px; line-height:1.65; }
+.source-doc pre code{ background:transparent; border:0; color:inherit; padding:0; }
 @media(max-width:820px){
   .deck{ padding:28px 20px 52px; }
   .hero{ display:block; }
@@ -211,6 +223,7 @@ body.reader-open{ overflow:hidden; }
   .rd-body{ grid-template-columns:1fr; }
   .rd-analysis{ border-right:none; border-bottom:1px solid var(--line); }
   .source-box{ position:static; }
+  .source-doc{ padding:18px 16px; }
   .prompt-search{ justify-content:flex-start; }
 }
 </style>
@@ -227,7 +240,7 @@ body.reader-open{ overflow:hidden; }
     <a href="../devin.html">DEVIN</a>
     <a href="../grok.html">GROK</a>
     <a href="../copilot.html">COPILOT</a>
-    <a href="../docs/source-annotations.md">SOURCES</a>
+    <a href="../sources.html">SOURCES</a>
   </nav>
 
   <div class="hero">
@@ -401,8 +414,8 @@ body.reader-open{ overflow:hidden; }
             <h3>完整 System Prompt 原文 <span>verbatim · 来自来源仓库</span></h3>
             <div class="prompt-search">
               <input id="rdSearch" type="search" placeholder="搜索 prompt" autocomplete="off">
-              <button type="button" id="rdPrevHit">↑</button>
-              <button type="button" id="rdNextHit">↓</button>
+              <button type="button" id="rdPrevHit" aria-label="上一条搜索结果" title="上一条搜索结果">↑</button>
+              <button type="button" id="rdNextHit" aria-label="下一条搜索结果" title="下一条搜索结果">↓</button>
               <span id="rdSearchCount">0/0</span>
               <button type="button" id="rdCopyPrompt">copy prompt</button>
             </div>
@@ -986,10 +999,7 @@ body.reader-open{ overflow:hidden; }
     var lastFocusBeforeReader = null;
     function esc(s){ return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
-    function copyText(text){
-      if(navigator.clipboard && navigator.clipboard.writeText){
-        return navigator.clipboard.writeText(text);
-      }
+    function fallbackCopyText(text){
       var area = document.createElement('textarea');
       area.value = text;
       area.setAttribute('readonly', '');
@@ -997,15 +1007,37 @@ body.reader-open{ overflow:hidden; }
       area.style.left = '-9999px';
       document.body.appendChild(area);
       area.select();
-      document.execCommand('copy');
+      var copied = false;
+      try{
+        copied = document.execCommand('copy');
+      }catch(error){
+        copied = false;
+      }
       document.body.removeChild(area);
-      return Promise.resolve();
+      return copied ? Promise.resolve() : Promise.reject(new Error('Clipboard copy failed'));
+    }
+    function copyText(text){
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        return navigator.clipboard.writeText(text).catch(function(){
+          return fallbackCopyText(text);
+        });
+      }
+      return fallbackCopyText(text);
     }
     function buttonFlash(btn, label){
       if(!btn) return;
       var old = btn.textContent;
       btn.textContent = label;
       setTimeout(function(){ btn.textContent = old; }, 1100);
+    }
+    function copyWithFeedback(btn, text){
+      copyText(text).then(function(){
+        btn.removeAttribute('title');
+        buttonFlash(btn, 'copied');
+      }).catch(function(){
+        btn.setAttribute('title', '复制失败，请手动选中文本复制。');
+        buttonFlash(btn, 'copy failed');
+      });
     }
     function citationText(v){
       var source = (v && v.source) || {};
@@ -1242,14 +1274,14 @@ body.reader-open{ overflow:hidden; }
     if(copyPrompt){
       copyPrompt.addEventListener('click', function(){
         if(!currentVersion) return;
-        copyText(currentVersion.prompt || '').then(function(){ buttonFlash(copyPrompt, 'copied'); });
+        copyWithFeedback(copyPrompt, currentVersion.prompt || '');
       });
     }
     var copyCitation = document.getElementById('rdCopyCitation');
     if(copyCitation){
       copyCitation.addEventListener('click', function(){
         if(!currentVersion) return;
-        copyText(citationText(currentVersion)).then(function(){ buttonFlash(copyCitation, 'copied'); });
+        copyWithFeedback(copyCitation, citationText(currentVersion));
       });
     }
     var quoteBox = document.getElementById('rdSourceLines');

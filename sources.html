@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>来源标注规范</title>
+<link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+<div class="deck source-page">
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="index.html">INDEX</a>
+    <a href="methodology.html">METHODOLOGY</a>
+    <a href="claude-sample.html">CLAUDE</a>
+    <a href="gpt.html">GPT</a>
+    <a href="gemini.html">GEMINI</a>
+    <a href="cursor.html">CURSOR</a>
+    <a href="devin.html">DEVIN</a>
+    <a href="grok.html">GROK</a>
+    <a href="copilot.html">COPILOT</a>
+    <a href="sources.html">SOURCES</a>
+  </nav>
+  <div class="hero">
+    <div class="avatar"><span class="face">SRC</span><span class="logo">DOSSIER</span></div>
+    <div class="htext">
+      <h1><span class="en">Sources</span> 标注规范</h1>
+      <span class="persona-tag">可追溯 · 可复现 · 可审计</span>
+    </div>
+    <div class="arrows">&raquo;&raquo;&raquo;</div>
+  </div>
+  <p class="subtitle">站内版来源规范，内容由 <code>docs/source-annotations.md</code> 生成。模型档案页的摘录、来源字段、行号和版本 diff 都按这套规则校验。</p>
+  <article class="source-doc">
+<h1>来源标注规范</h1>
+<p>每个模型版本的数据必须能追溯到原始 prompt 文本。版本分析允许有作者解读，但事实判断、原文摘录、行号和版本 diff 必须能回到来源文件。</p>
+<h2>必填字段</h2>
+<p>每个 <code>data/*.json</code> 的版本对象必须包含 <code>source</code> 字段：</p>
+<pre><code class="language-json">{
+  &quot;source&quot;: {
+    &quot;source_repo&quot;: &quot;asgeirtj/system_prompts_leaks&quot;,
+    &quot;source_path&quot;: &quot;OpenAI/gpt-5.5-thinking.md&quot;,
+    &quot;source_commit&quot;: &quot;678e7fadee889f036400a478acbf3c8a1d16980f&quot;,
+    &quot;quoted_lines&quot;: [
+      {
+        &quot;label&quot;: &quot;identity_and_date&quot;,
+        &quot;start&quot;: 1,
+        &quot;end&quot;: 6
+      }
+    ],
+    &quot;license&quot;: &quot;CC0 1.0 Universal&quot;,
+    &quot;analysis_author_note&quot;: &quot;全文来自本地克隆的 asgeirtj/system_prompts_leaks；中文拆解为本仓库作者基于原文的分析。&quot;
+  }
+}</code></pre>
+<h2>字段说明</h2>
+<table><thead><tr><th>字段</th><th>含义</th><th>要求</th></tr></thead><tbody><tr><td><code>source_repo</code></td><td>原始 prompt 来源仓库</td><td>使用 <code>owner/repo</code>，不要只写项目名</td></tr><tr><td><code>source_path</code></td><td>原始 prompt 在来源仓库中的路径</td><td>必须精确到文件</td></tr><tr><td><code>source_commit</code></td><td>来源仓库 commit SHA</td><td>必须固定版本，避免上游文件变动导致引用漂移</td></tr><tr><td><code>quoted_lines</code></td><td>页面摘录、分析或 diff 使用的原文行号</td><td>使用 1-based 行号；每个摘录单独列一项</td></tr><tr><td><code>license</code></td><td>来源素材许可证</td><td>写明上游许可证，例如 <code>CC0 1.0 Universal</code></td></tr><tr><td><code>analysis_author_note</code></td><td>分析说明</td><td>区分原文事实与本仓库作者解读</td></tr></tbody></table>
+<h2>页面摘录绑定</h2>
+<p>模型页中的每个证据摘录块必须使用 <code>data-source-label</code> 绑定到 <code>quoted_lines.label</code>：</p>
+<pre><code class="language-html">&lt;div class=&quot;quote&quot; data-source-label=&quot;identity_and_date&quot;&gt;
+  ...
+&lt;/div&gt;</code></pre>
+<p><code>scripts/validate.py</code> 会检查：</p>
+<ul>
+<li>每个 <code>.quote</code> 都必须有 <code>data-source-label</code>。</li>
+<li><code>data-source-label</code> 必须存在于该模型 <code>data/*.json</code> 的 <code>source.quoted_lines[].label</code> 中。</li>
+<li>对应 <code>quoted_lines</code> 的 <code>start</code> / <code>end</code> 不能越界。</li>
+</ul>
+<h2>当前来源状态</h2>
+<table><thead><tr><th>数据文件</th><th>版本数</th><th>来源状态</th><th>说明</th></tr></thead><tbody><tr><td><code>data/claude.json</code></td><td>7</td><td><b>混合固定</b></td><td>来源为 Anthropic Official 四个版本、Claude Product 长 prompt（Opus 4.8、Fable 5）与 Claude Code Fable 5</td></tr><tr><td><code>data/gpt.json</code></td><td>2</td><td><b>已固定</b></td><td>来源为 <code>OpenAI/gpt-5.5-thinking.md</code>、<code>OpenAI/gpt-5.5-instant.md</code></td></tr><tr><td><code>data/gemini.json</code></td><td>2</td><td><b>已固定</b></td><td>来源为 <code>Google/gemini-3-flash.md</code>、<code>Google/gemini-workspace.md</code></td></tr><tr><td><code>data/cursor.json</code></td><td>1</td><td><b>已固定</b></td><td>来源为 <code>Cursor/cursor.md</code></td></tr><tr><td><code>data/devin.json</code></td><td>1</td><td><b>已固定</b></td><td>来源为 <code>Misc/devin-cli.md</code></td></tr><tr><td><code>data/grok.json</code></td><td>11</td><td><b>已固定</b></td><td>来源为 xAI Grok 全系列：Grok 3/4/4.1 beta/4.2/4.3 beta/API/Build/personas/account/expert/post safety</td></tr><tr><td><code>data/copilot.json</code></td><td>5</td><td><b>已固定</b></td><td>来源为 Microsoft/GitHub Copilot 五个表面：GitHub、VS Code、CLI、Word、macOS App</td></tr></tbody></table>
+<p>已固定来源来自：</p>
+<pre><code class="language-text">source_repo: asgeirtj/system_prompts_leaks
+baseline source_commit: 678e7fadee889f036400a478acbf3c8a1d16980f
+Claude Fable 5 source_commit: 28639e67c6774477aa32b9ef1995bae2c74c40f6
+Grok / Microsoft Copilot source_commit: 28639e67c6774477aa32b9ef1995bae2c74c40f6
+license: CC0 1.0 Universal</code></pre>
+<h2>已固定来源明细</h2>
+<table><thead><tr><th>模型</th><th>版本</th><th><code>source_path</code></th><th><code>quoted_lines</code> 数量</th></tr></thead><tbody><tr><td>Claude</td><td>Sonnet 3.7</td><td><code>Anthropic/Official/2025-02-24-claude-sonnet-3.7.md</code></td><td>5</td></tr><tr><td>Claude</td><td>Sonnet 4</td><td><code>Anthropic/Official/2025-05-22-claude-sonnet-4.md</code></td><td>6</td></tr><tr><td>Claude</td><td>Sonnet 4.5</td><td><code>Anthropic/Official/2025-09-29-claude-sonnet-4.5.md</code></td><td>6</td></tr><tr><td>Claude</td><td>Sonnet 4.6</td><td><code>Anthropic/Official/2026-02-17-claude-sonnet-4.6.md</code></td><td>6</td></tr><tr><td>Claude</td><td>Opus 4.8</td><td><code>Anthropic/claude-opus-4.8.md</code></td><td>8</td></tr><tr><td>Claude</td><td>Fable 5</td><td><code>Anthropic/claude-fable-5.md</code></td><td>9</td></tr><tr><td>Claude Code</td><td>Fable 5</td><td><code>Anthropic/Claude Code/claude-code-2.1.172-fable-5.md</code></td><td>6</td></tr><tr><td>GPT</td><td>5.5 Thinking</td><td><code>OpenAI/gpt-5.5-thinking.md</code></td><td>5</td></tr><tr><td>GPT</td><td>5.5 Instant</td><td><code>OpenAI/gpt-5.5-instant.md</code></td><td>4</td></tr><tr><td>Gemini</td><td>3 Flash</td><td><code>Google/gemini-3-flash.md</code></td><td>4</td></tr><tr><td>Gemini</td><td>Workspace</td><td><code>Google/gemini-workspace.md</code></td><td>4</td></tr><tr><td>Cursor</td><td>IDE Agent</td><td><code>Cursor/cursor.md</code></td><td>5</td></tr><tr><td>Devin</td><td>CLI</td><td><code>Misc/devin-cli.md</code></td><td>5</td></tr><tr><td>Grok</td><td>Grok 3</td><td><code>xAI/grok-3.md</code></td><td>4</td></tr><tr><td>Grok</td><td>Grok 4</td><td><code>xAI/grok-4.md</code></td><td>4</td></tr><tr><td>Grok</td><td>Grok 4.1 Beta</td><td><code>xAI/grok-4.1-beta.md</code></td><td>4</td></tr><tr><td>Grok</td><td>Grok 4.2</td><td><code>xAI/grok-4.2.md</code></td><td>5</td></tr><tr><td>Grok</td><td>Grok 4.3 Beta</td><td><code>xAI/grok-4.3-beta.md</code></td><td>6</td></tr><tr><td>Grok</td><td>API</td><td><code>xAI/grok-api.md</code></td><td>3</td></tr><tr><td>Grok</td><td>Build</td><td><code>xAI/grok-build.md</code></td><td>5</td></tr><tr><td>Grok</td><td>Personas</td><td><code>xAI/grok-personas.md</code></td><td>4</td></tr><tr><td>Grok</td><td>Account</td><td><code>xAI/grok-account.md</code></td><td>4</td></tr><tr><td>Grok</td><td>Expert</td><td><code>xAI/grok-expert.md</code></td><td>4</td></tr><tr><td>Grok</td><td>Post Safety</td><td><code>xAI/grok.com-post-new-safety-instructions.md</code></td><td>4</td></tr><tr><td>Microsoft Copilot</td><td>GitHub Copilot</td><td><code>Microsoft/github-copilot.md</code></td><td>5</td></tr><tr><td>Microsoft Copilot</td><td>VS Code Copilot Agent</td><td><code>Microsoft/vscode-copilot-agent.md</code></td><td>5</td></tr><tr><td>Microsoft Copilot</td><td>Copilot CLI</td><td><code>Microsoft/copilot-cli.md</code></td><td>5</td></tr><tr><td>Microsoft Copilot</td><td>Copilot in Word</td><td><code>Microsoft/copilot-in-microsoft-word.md</code></td><td>5</td></tr><tr><td>Microsoft Copilot</td><td>macOS App</td><td><code>Microsoft/copilot-macos-app.md</code></td><td>5</td></tr></tbody></table>
+<h2>发布前检查</h2>
+<p>发布模型页面前必须确认：</p>
+<ul>
+<li>没有 <code>TODO</code>、<code>unknown</code>、<code>unverified</code> 留在 <code>source.source_path</code> 或 <code>source.source_commit</code>。</li>
+<li>页面中每个英文摘录都必须通过 <code>data-source-label</code> 绑定到 <code>quoted_lines</code> 中的对应项。</li>
+<li>版本 diff 的依据能追溯到两个明确的 <code>source_commit</code> 或同一来源仓库中的两个明确文件。</li>
+<li>如果使用第三方仓库素材，README 和页面脚注必须说明来源与许可证。</li>
+<li>作者观点必须写在分析字段中，不能伪装成原文事实。</li>
+<li><code>words</code>、<code>lines</code> 统计应和 <code>prompt</code> 原文实际内容保持一致。</li>
+</ul>
+<h2>后续维护</h2>
+<p>新增模型或版本时，先补 <code>data/*.json</code> 的来源字段，再生成页面。若上游素材库更新，请新建版本记录并固定新的 commit，不要直接覆盖已经发布的来源指针。</p>
+  </article>
+</div>
+</body>
+</html>

@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import json
+import re
+from html import escape
 from pathlib import Path
 
 
@@ -12,12 +14,28 @@ STYLE_PATH = ROOT / "src" / "styles.css"
 READER_PATH = ROOT / "src" / "reader.js"
 PAGES_PATH = ROOT / "data" / "pages.json"
 TEMPLATE_PATH = ROOT / "templates" / "model.html"
+SOURCE_DOC_PATH = ROOT / "docs" / "source-annotations.md"
+SOURCES_OUTPUT_PATH = ROOT / "sources.html"
 DIST_DIR = ROOT / "dist"
 
 
 STYLE_LINK = '<link rel="stylesheet" href="src/styles.css">'
 READER_SCRIPT = '<script src="src/reader.js" defer></script>'
 EMPTY_DATA_TAG = ""
+
+
+SOURCES_NAV = """  <nav class="site-nav" aria-label="页面导航">
+    <a href="index.html">INDEX</a>
+    <a href="methodology.html">METHODOLOGY</a>
+    <a href="claude-sample.html">CLAUDE</a>
+    <a href="gpt.html">GPT</a>
+    <a href="gemini.html">GEMINI</a>
+    <a href="cursor.html">CURSOR</a>
+    <a href="devin.html">DEVIN</a>
+    <a href="grok.html">GROK</a>
+    <a href="copilot.html">COPILOT</a>
+    <a href="sources.html">SOURCES</a>
+  </nav>"""
 
 
 def read_text(path: Path) -> str:
@@ -28,6 +46,147 @@ def script_json(data: object) -> str:
     """Return JSON that is safe to embed inside a script tag."""
     text = json.dumps(data, ensure_ascii=False, indent=2)
     return text.replace("</", "<\\/")
+
+
+def inline_markdown(text: str) -> str:
+    html = escape(text)
+    html = re.sub(r"`([^`]+)`", r"<code>\1</code>", html)
+    html = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", html)
+    return html
+
+
+def render_table(lines: list[str]) -> str:
+    rows: list[list[str]] = []
+    for line in lines:
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if cells and all(set(cell) <= {"-"} for cell in cells):
+            continue
+        rows.append(cells)
+    if not rows:
+        return ""
+    head = "".join(f"<th>{inline_markdown(cell)}</th>" for cell in rows[0])
+    body = []
+    for row in rows[1:]:
+        body.append("<tr>" + "".join(f"<td>{inline_markdown(cell)}</td>" for cell in row) + "</tr>")
+    return "<table><thead><tr>" + head + "</tr></thead><tbody>" + "".join(body) + "</tbody></table>"
+
+
+def markdown_to_html(markdown: str) -> str:
+    html: list[str] = []
+    lines = markdown.splitlines()
+    i = 0
+    in_code = False
+    code_lang = ""
+    code_lines: list[str] = []
+    in_list = False
+
+    def close_list() -> None:
+        nonlocal in_list
+        if in_list:
+            html.append("</ul>")
+            in_list = False
+
+    while i < len(lines):
+        line = lines[i]
+        stripped = line.strip()
+
+        if stripped.startswith("```"):
+            if in_code:
+                html.append(
+                    '<pre><code class="language-'
+                    + escape(code_lang)
+                    + '">'
+                    + escape("\n".join(code_lines))
+                    + "</code></pre>"
+                )
+                in_code = False
+                code_lines = []
+                code_lang = ""
+            else:
+                close_list()
+                in_code = True
+                code_lang = stripped[3:].strip()
+            i += 1
+            continue
+
+        if in_code:
+            code_lines.append(line)
+            i += 1
+            continue
+
+        if not stripped:
+            close_list()
+            i += 1
+            continue
+
+        if stripped.startswith("|") and "|" in stripped[1:]:
+            close_list()
+            table_lines = []
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                table_lines.append(lines[i])
+                i += 1
+            html.append(render_table(table_lines))
+            continue
+
+        if stripped.startswith("## "):
+            close_list()
+            html.append("<h2>" + inline_markdown(stripped[3:]) + "</h2>")
+            i += 1
+            continue
+
+        if stripped.startswith("# "):
+            close_list()
+            html.append("<h1>" + inline_markdown(stripped[2:]) + "</h1>")
+            i += 1
+            continue
+
+        if stripped.startswith("- "):
+            if not in_list:
+                html.append("<ul>")
+                in_list = True
+            html.append("<li>" + inline_markdown(stripped[2:]) + "</li>")
+            i += 1
+            continue
+
+        close_list()
+        html.append("<p>" + inline_markdown(stripped) + "</p>")
+        i += 1
+
+    close_list()
+    if in_code:
+        html.append("<pre><code>" + escape("\n".join(code_lines)) + "</code></pre>")
+    return "\n".join(html)
+
+
+def render_sources_page(css_link: str = STYLE_LINK) -> str:
+    doc_html = markdown_to_html(read_text(SOURCE_DOC_PATH))
+    return f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>来源标注规范</title>
+{css_link}
+</head>
+<body>
+<div class="deck source-page">
+{SOURCES_NAV}
+  <div class="hero">
+    <div class="avatar"><span class="face">SRC</span><span class="logo">DOSSIER</span></div>
+    <div class="htext">
+      <h1><span class="en">Sources</span> 标注规范</h1>
+      <span class="persona-tag">可追溯 · 可复现 · 可审计</span>
+    </div>
+    <div class="arrows">&raquo;&raquo;&raquo;</div>
+  </div>
+  <p class="subtitle">站内版来源规范，内容由 <code>docs/source-annotations.md</code> 生成。模型档案页的摘录、来源字段、行号和版本 diff 都按这套规则校验。</p>
+  <article class="source-doc">
+{doc_html}
+  </article>
+</div>
+</body>
+</html>
+"""
 
 
 def page_meta() -> list[dict[str, str]]:
@@ -102,9 +261,15 @@ def build_dist_page(page: dict[str, str], css: str, reader_js: str) -> None:
     print(f"Built {output_path.relative_to(ROOT)} ({len(data)} versions)")
 
 
+def build_sources_page() -> None:
+    SOURCES_OUTPUT_PATH.write_text(render_sources_page(), encoding="utf-8")
+    print(f"Built {SOURCES_OUTPUT_PATH.relative_to(ROOT)}")
+
+
 def build() -> None:
     css = read_text(STYLE_PATH).rstrip()
     reader_js = standalone_reader(read_text(READER_PATH).rstrip())
+    build_sources_page()
     for page in page_meta():
         build_source_page(page)
         build_dist_page(page, css, reader_js)

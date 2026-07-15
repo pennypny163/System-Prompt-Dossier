@@ -29,10 +29,7 @@
     var lastFocusBeforeReader = null;
     function esc(s){ return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
-    function copyText(text){
-      if(navigator.clipboard && navigator.clipboard.writeText){
-        return navigator.clipboard.writeText(text);
-      }
+    function fallbackCopyText(text){
       var area = document.createElement('textarea');
       area.value = text;
       area.setAttribute('readonly', '');
@@ -40,15 +37,37 @@
       area.style.left = '-9999px';
       document.body.appendChild(area);
       area.select();
-      document.execCommand('copy');
+      var copied = false;
+      try{
+        copied = document.execCommand('copy');
+      }catch(error){
+        copied = false;
+      }
       document.body.removeChild(area);
-      return Promise.resolve();
+      return copied ? Promise.resolve() : Promise.reject(new Error('Clipboard copy failed'));
+    }
+    function copyText(text){
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        return navigator.clipboard.writeText(text).catch(function(){
+          return fallbackCopyText(text);
+        });
+      }
+      return fallbackCopyText(text);
     }
     function buttonFlash(btn, label){
       if(!btn) return;
       var old = btn.textContent;
       btn.textContent = label;
       setTimeout(function(){ btn.textContent = old; }, 1100);
+    }
+    function copyWithFeedback(btn, text){
+      copyText(text).then(function(){
+        btn.removeAttribute('title');
+        buttonFlash(btn, 'copied');
+      }).catch(function(){
+        btn.setAttribute('title', '复制失败，请手动选中文本复制。');
+        buttonFlash(btn, 'copy failed');
+      });
     }
     function citationText(v){
       var source = (v && v.source) || {};
@@ -285,14 +304,14 @@
     if(copyPrompt){
       copyPrompt.addEventListener('click', function(){
         if(!currentVersion) return;
-        copyText(currentVersion.prompt || '').then(function(){ buttonFlash(copyPrompt, 'copied'); });
+        copyWithFeedback(copyPrompt, currentVersion.prompt || '');
       });
     }
     var copyCitation = document.getElementById('rdCopyCitation');
     if(copyCitation){
       copyCitation.addEventListener('click', function(){
         if(!currentVersion) return;
-        copyText(citationText(currentVersion)).then(function(){ buttonFlash(copyCitation, 'copied'); });
+        copyWithFeedback(copyCitation, citationText(currentVersion));
       });
     }
     var quoteBox = document.getElementById('rdSourceLines');

@@ -18,7 +18,7 @@
     <a href="{{nav_prefix}}devin.html">DEVIN</a>
     <a href="{{nav_prefix}}grok.html">GROK</a>
     <a href="{{nav_prefix}}copilot.html">COPILOT</a>
-    <a href="{{nav_prefix}}docs/source-annotations.md">SOURCES</a>
+    <a href="{{nav_prefix}}sources.html">SOURCES</a>
   </nav>
 
   <div class="hero">
@@ -65,8 +65,8 @@
             <h3>完整 System Prompt 原文 <span>verbatim · 来自来源仓库</span></h3>
             <div class="prompt-search">
               <input id="rdSearch" type="search" placeholder="搜索 prompt" autocomplete="off">
-              <button type="button" id="rdPrevHit">↑</button>
-              <button type="button" id="rdNextHit">↓</button>
+              <button type="button" id="rdPrevHit" aria-label="上一条搜索结果" title="上一条搜索结果">↑</button>
+              <button type="button" id="rdNextHit" aria-label="下一条搜索结果" title="下一条搜索结果">↓</button>
               <span id="rdSearchCount">0/0</span>
               <button type="button" id="rdCopyPrompt">copy prompt</button>
             </div>
