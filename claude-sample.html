@@ -8,17 +8,24 @@
 </head>
 <body data-model="claude" data-model-name="Claude" data-data="data/claude.json">
 <div class="deck">
-  <nav class="site-nav" aria-label="页面导航">
-    <a href="index.html">INDEX</a>
-    <a href="methodology.html">METHODOLOGY</a>
-    <a href="claude-sample.html">CLAUDE</a>
-    <a href="gpt.html">GPT</a>
-    <a href="gemini.html">GEMINI</a>
-    <a href="cursor.html">CURSOR</a>
-    <a href="devin.html">DEVIN</a>
-    <a href="grok.html">GROK</a>
-    <a href="copilot.html">COPILOT</a>
-    <a href="sources.html">SOURCES</a>
+  <nav class="global-nav" aria-label="页面导航">
+    <a class="nav-link" href="index.html">INDEX</a>
+    <a class="nav-link" href="methodology.html">方法论</a>
+    <div class="nav-group">
+      <button class="nav-trigger" type="button" aria-haspopup="true">模型档案</button>
+      <div class="nav-menu" role="menu">
+        <div class="nav-menu-section"><p>通用助手</p><a role="menuitem" href="claude-sample.html">Claude</a><a role="menuitem" href="gpt.html">GPT</a><a role="menuitem" href="gemini.html">Gemini</a></div>
+        <div class="nav-menu-section"><p>开发 Agent</p><a role="menuitem" href="cursor.html">Cursor</a><a role="menuitem" href="devin.html">Devin</a><a role="menuitem" href="copilot.html">Copilot</a></div>
+        <div class="nav-menu-section"><p>实时 / 平台</p><a role="menuitem" href="grok.html">Grok</a></div>
+      </div>
+    </div>
+    <div class="nav-group">
+      <button class="nav-trigger" type="button" aria-haspopup="true">人格对比</button>
+      <div class="nav-menu nav-menu-compact" role="menu">
+        <div class="nav-menu-section"><p>两种讲法</p><a role="menuitem" href="persona-student.html">大学生 · 科普版</a><a role="menuitem" href="persona-ka.html">KA 高层 · 授课版</a></div>
+      </div>
+    </div>
+    <a class="nav-link" href="sources.html">来源规范</a>
   </nav>
 
   <div class="hero">
