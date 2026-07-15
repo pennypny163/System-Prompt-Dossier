@@ -18,6 +18,7 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 body::before{ content:""; display:block; height:7px; background:linear-gradient(90deg,var(--red),var(--amber) 42%,var(--teal)); }
+body.reader-open{ overflow:hidden; }
 .deck{ max-width:1080px; margin:0 auto; padding:34px 42px 78px; }
 .site-nav{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; margin-bottom:26px; border-bottom:1px solid var(--line); padding-bottom:14px; }
 .site-nav a{ color:var(--ink); text-decoration:none; font-size:12px; padding:6px 9px; border:1px solid var(--line); border-radius:4px; background:rgba(251,248,240,.65); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
@@ -133,8 +134,9 @@ body::before{ content:""; display:block; height:7px; background:linear-gradient(
 .tl-diff .add{ color:var(--green); } .tl-diff .cut{ color:var(--red); }
 
 /* ---------- 可点击时间线卡 ---------- */
-.tl-card{ cursor:pointer; transition:.16s; border-radius:4px; padding:10px 12px; margin-left:6px; background:rgba(251,248,240,.82); border:1px solid transparent; }
-.tl-card:hover{ background:var(--white); border-color:var(--ink); transform:translateX(2px); }
+.tl-card{ display:block; width:calc(100% - 6px); cursor:pointer; transition:.16s; border-radius:4px; padding:10px 12px; margin-left:6px; background:rgba(251,248,240,.82); border:1px solid transparent; color:inherit; font:inherit; text-align:left; }
+.tl-card:hover,.tl-card:focus-visible{ background:var(--white); border-color:var(--ink); transform:translateX(2px); }
+.tl-card:focus-visible{ outline:3px solid rgba(156,47,31,.32); outline-offset:2px; }
 .tl-tag{ font-size:13px; color:var(--muted); margin-bottom:6px; }
 .tl-more{ display:inline-flex; align-items:center; gap:5px; font-size:12px; color:var(--red); margin-top:6px; font-weight:700; }
 .tl-more .ic{ font-size:14px; }

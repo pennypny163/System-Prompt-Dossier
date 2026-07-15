@@ -26,7 +26,9 @@
   function init(V){
     var COLORS = {};
     var tl = document.getElementById('timeline');
+    var lastFocusBeforeReader = null;
     function esc(s){ return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function escAttr(s){ return esc(s).replace(/"/g,'&quot;'); }
     function copyText(text){
       if(navigator.clipboard && navigator.clipboard.writeText){
         return navigator.clipboard.writeText(text);
@@ -159,13 +161,13 @@
       var shadow = v.now ? 'box-shadow:0 0 0 4px rgba(232,93,74,.2);' : '';
       item.innerHTML =
         '<span class="tdot" style="background:'+v.color+';'+shadow+'"></span>'+
-        '<div class="tl-card" data-i="'+i+'">'+
+        '<button type="button" class="tl-card" data-i="'+i+'" aria-label="查看 '+escAttr(modelName+' '+v.ver)+' 的完整 prompt 和详细分析">'+
           '<div class="tl-head"><span class="tl-ver">'+v.ver+'</span>'+
             '<span class="tl-date">'+v.date+'</span>'+nowTag+
             '<span class="tl-stat">'+v.words.toLocaleString()+' words · '+v.lines.toLocaleString()+' lines</span></div>'+
           '<div class="tl-tag">'+v.tagline+'</div>'+
           '<div class="tl-more"><span class="ic">⊕</span> 查看完整 prompt + 详细分析</div>'+
-        '</div>';
+        '</button>';
       return item;
     }
     function renderTimeline(){
@@ -193,14 +195,43 @@
       });
     }
     renderTimeline();
+    function openTimelineCard(card){
+      if(!card) return;
+      openReader(parseInt(card.getAttribute('data-i'),10), card);
+    }
     tl.addEventListener('click', function(e){
       var c = e.target.closest('.tl-card');
       if(!c) return;
-      openReader(parseInt(c.getAttribute('data-i'),10));
+      openTimelineCard(c);
     });
-    window.openReader = function(i){
+    tl.addEventListener('keydown', function(e){
+      var c = e.target.closest('.tl-card');
+      if(!c || (e.key !== 'Enter' && e.key !== ' ')) return;
+      e.preventDefault();
+      openTimelineCard(c);
+    });
+    function readerIsOpen(){
+      var ov = document.getElementById('overlay');
+      return !!(ov && ov.classList.contains('on'));
+    }
+    function readerFocusables(){
+      var ov = document.getElementById('overlay');
+      if(!ov) return [];
+      var selector = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+      return Array.prototype.slice.call(ov.querySelectorAll(selector)).filter(function(el){
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+      });
+    }
+    function focusReaderStart(){
+      var close = document.querySelector('.rd-close');
+      var reader = document.querySelector('.reader');
+      if(close) close.focus();
+      else if(reader) reader.focus();
+    }
+    window.openReader = function(i, opener){
       var v = V[i];
       var source = v.source || {};
+      lastFocusBeforeReader = opener || document.activeElement;
       currentVersion = v;
       document.getElementById('rdVer').textContent = modelName + ' ' + v.ver;
       document.getElementById('rdVer').style.color = v.color;
@@ -222,9 +253,20 @@
       renderPrompt(v.prompt, '');
       var ov = document.getElementById('overlay');
       ov.classList.add('on');
+      document.body.classList.add('reader-open');
       ov.scrollTop = 0;
+      focusReaderStart();
     };
-    window.closeReader = function(){ document.getElementById('overlay').classList.remove('on'); };
+    window.closeReader = function(){
+      var ov = document.getElementById('overlay');
+      if(!ov || !ov.classList.contains('on')) return;
+      ov.classList.remove('on');
+      document.body.classList.remove('reader-open');
+      if(lastFocusBeforeReader && document.contains(lastFocusBeforeReader)){
+        lastFocusBeforeReader.focus();
+      }
+      lastFocusBeforeReader = null;
+    };
     var searchInput = document.getElementById('rdSearch');
     if(searchInput){
       searchInput.addEventListener('input', runSearch);
@@ -261,6 +303,28 @@
         jumpToLine(parseInt(btn.getAttribute('data-line'), 10));
       });
     }
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeReader(); });
+    document.addEventListener('keydown', function(e){
+      if(!readerIsOpen()) return;
+      if(e.key === 'Escape'){
+        e.preventDefault();
+        closeReader();
+        return;
+      }
+      if(e.key !== 'Tab') return;
+      var focusables = readerFocusables();
+      if(!focusables.length) return;
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+      if(e.shiftKey && document.activeElement === first){
+        e.preventDefault();
+        last.focus();
+      }else if(!e.shiftKey && document.activeElement === last){
+        e.preventDefault();
+        first.focus();
+      }else if(!document.getElementById('overlay').contains(document.activeElement)){
+        e.preventDefault();
+        first.focus();
+      }
+    });
   }
 })();

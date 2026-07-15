@@ -63,13 +63,13 @@
 </div>
 
   <div class="overlay" id="overlay" onclick="if(event.target===this)closeReader()">
-    <div class="reader">
+    <div class="reader" role="dialog" aria-modal="true" aria-labelledby="rdVer" tabindex="-1">
       <div class="rd-top">
         <span class="rv" id="rdVer"></span>
         <span class="rdt" id="rdDate"></span>
         <span class="rtag" id="rdTag"></span>
         <span class="rstat" id="rdStat"></span>
-        <button class="rd-close" onclick="closeReader()">&times;</button>
+        <button class="rd-close" type="button" aria-label="关闭阅读器" onclick="closeReader()">&times;</button>
       </div>
       <div class="rd-body">
         <div class="rd-analysis">
