@@ -141,7 +141,7 @@ body::before{ content:""; display:block; height:7px; background:linear-gradient(
 .tl-stat{ font-size:11px; color:var(--muted); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; margin-left:auto; }
 
 /* ---------- 全屏阅读层 ---------- */
-.overlay{ position:absolute; inset:0; background:rgba(23,20,17,.66); backdrop-filter:blur(2px); display:none; z-index:100; padding:32px; overflow:auto; }
+.overlay{ position:fixed; inset:0; background:rgba(23,20,17,.66); backdrop-filter:blur(2px); display:none; z-index:100; padding:32px; overflow:auto; }
 .overlay.on{ display:block; }
 .reader{ max-width:1180px; margin:0 auto; background:var(--paper); border:1px solid var(--ink); border-radius:4px; overflow:hidden; box-shadow:12px 12px 0 rgba(23,20,17,.16); }
 .rd-top{ display:flex; align-items:center; gap:14px; padding:16px 22px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--white); z-index:2; }
